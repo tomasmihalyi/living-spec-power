@@ -1,14 +1,60 @@
 # Maintaining Living Specs
 
-This guide covers how to keep Living Specs in sync with your codebase and evolving requirements.
+This guide covers how to keep Living Specs in sync with your codebase, Kiro specs, and evolving requirements.
 
-## Core Principle: Bidirectional Sync
+## Core Principle: Source of Truth
+
+The Living Spec is the **single source of truth** for your project. It must:
+- Reference all Kiro feature specs in `.kiro/specs/`
+- Stay in sync with code changes
+- Reflect current architectural decisions and metrics
+
+Your AI assistant handles bidirectional sync when you're explicit about what changed.
+
+## Validating Spec References
+
+### Periodic Validation
+
+Ask Kiro to validate that all specs are properly referenced:
+```
+Review .kiro/specs/ and ensure all Kiro specs are referenced in the Living Spec's Related Specs section
+```
+
+Kiro will:
+1. Scan `.kiro/specs/` for all feature spec folders
+2. Compare against the Related Specs table in the Living Spec
+3. Report any missing references
+4. Offer to add them
+
+### When Creating New Specs
+
+When you create a new Kiro spec, Kiro will automatically:
+1. Check if a Living Spec exists
+2. If yes → Offer to add the new spec to Related Specs
+3. If no → Suggest creating a Living Spec as the source of truth
+
+### Keeping References Current
+
+Update the Related Specs table when:
+- A new Kiro spec is created
+- A spec is completed or archived
+- A spec's status changes
+
+```markdown
+### Related Specs
+| Spec | Path | Status | Description |
+|------|------|--------|-------------|
+| User Auth | `.kiro/specs/user-auth/` | ✅ Complete | Login, signup, password reset |
+| Payments | `.kiro/specs/payments/` | 🔄 In Progress | Stripe integration |
+| Inventory | `.kiro/specs/inventory/` | ⬚ Not Started | Stock tracking |
+| Analytics | `.kiro/specs/analytics/` | ❌ Dropped | Moved to third-party solution |
+```
+
+## Bidirectional Sync
 
 Living Specs work in both directions:
 - **Spec → Code**: Requirements and decisions drive implementation
 - **Code → Spec**: Implementation changes update the spec
-
-Your AI assistant handles both directions when you're explicit about what changed.
 
 ## When to Update Each Section
 
@@ -22,7 +68,7 @@ Your AI assistant handles both directions when you're explicit about what change
 **Example prompt:**
 ```
 We learned that mobile users prefer photo upload over email forwarding.
-Update the Intent section in specs/expense-tracker.living.md to reflect
+Update the Intent section in .kiro/specs/project.living.md to reflect
 this pivot and add a new success criteria for mobile adoption.
 ```
 
@@ -32,6 +78,7 @@ this pivot and add a new success criteria for mobile adoption.
 - New requirements are added
 - Requirements are dropped or deferred
 - Priority changes
+- New Kiro specs are created (add to Related Specs)
 
 **Status indicators:**
 - ⬚ Not Started
@@ -43,7 +90,7 @@ this pivot and add a new success criteria for mobile adoption.
 **Example prompt:**
 ```
 I just finished implementing FR-003 (CSV export) in src/api/exports.ts.
-Update specs/expense-tracker.living.md:
+Update .kiro/specs/project.living.md:
 - Mark FR-003 as implemented
 - Add FR-004 for PDF export to the backlog
 ```
@@ -82,7 +129,7 @@ I refactored the categorization service:
 - Split into multiple files
 - Added a new dependency on @aws-sdk/bedrock
 
-Update the Implementation section in specs/expense-tracker.living.md
+Update the Implementation section in .kiro/specs/project.living.md
 ```
 
 ### Section 5: Metrics
@@ -128,7 +175,7 @@ Log this decision with:
 
 **Example prompt:**
 ```
-Sprint update for specs/expense-tracker.living.md:
+Sprint update for .kiro/specs/project.living.md:
 - Completed: CSV export (FR-003)
 - New blocker: SSO implementation waiting on enterprise contract
 - New high priority: Rate limiting before we hit 1000 users
@@ -141,11 +188,22 @@ Sprint update for specs/expense-tracker.living.md:
 ```
 I just implemented [feature] in [files].
 
-Update specs/[name].living.md:
+Update .kiro/specs/project.living.md:
 1. Mark [requirement ID] as implemented
 2. Add any new components to Implementation section
 3. Log any decisions made during implementation
 4. Move completed tasks in Next Actions
+```
+
+### After Creating a New Kiro Spec
+
+```
+I just created a new Kiro spec at .kiro/specs/[feature-name]/.
+
+Update .kiro/specs/project.living.md:
+1. Add the new spec to Related Specs table
+2. Add any high-level requirements to the Requirements section
+3. Update Next Actions with initial tasks
 ```
 
 ### After a Planning Session
@@ -156,7 +214,7 @@ We had a planning session and decided:
 - [Decision 2]
 - New requirements: [list]
 
-Update specs/[name].living.md with these changes across
+Update .kiro/specs/project.living.md with these changes across
 Architecture, Requirements, and Decision Log sections.
 ```
 
@@ -165,20 +223,29 @@ Architecture, Requirements, and Decision Log sections.
 ```
 We launched [feature] to production.
 
-Update specs/[name].living.md:
+Update .kiro/specs/project.living.md:
 1. Update Metrics section with baseline measurements
 2. Add any post-launch tasks to Next Actions
 3. Note the launch in Decision Log
+4. Update Related Specs status if a Kiro spec was completed
 ```
 
 ### During Code Review
 
 ```
 Review my changes to [files] and suggest updates to
-specs/[name].living.md if any sections need updating.
+.kiro/specs/project.living.md if any sections need updating.
 ```
 
 ## Handling Common Scenarios
+
+### New Kiro Spec Not Referenced
+
+If Kiro detects a spec that isn't in the Living Spec:
+```
+I noticed .kiro/specs/new-feature/ isn't referenced in your Living Spec.
+Would you like me to add it to the Related Specs section?
+```
 
 ### Requirements Changed Mid-Sprint
 
@@ -256,6 +323,7 @@ fi
 Add to your PR template:
 ```markdown
 ## Living Spec Updates
+- [ ] Updated Related Specs (if new Kiro spec created)
 - [ ] Updated Implementation section (if new/moved files)
 - [ ] Logged decisions in Decision Log (if applicable)
 - [ ] Updated requirement status (if completing a requirement)
@@ -266,7 +334,8 @@ Add to your PR template:
 
 Schedule monthly reviews:
 ```
-Review specs/[name].living.md for staleness:
+Review .kiro/specs/project.living.md for staleness:
+- Are all Kiro specs in .kiro/specs/ referenced in Related Specs?
 - Are all requirement statuses current?
 - Are metrics up to date?
 - Is the tech debt register accurate?
@@ -278,16 +347,20 @@ Review specs/[name].living.md for staleness:
 ### ❌ Letting the Spec Drift
 Don't wait until the spec is completely out of date. Update incrementally.
 
+### ❌ Missing Spec References
+Every Kiro spec should be referenced in the Living Spec. Run periodic validation.
+
 ### ❌ Over-Documenting
 Not every code change needs a spec update. Focus on:
 - Requirement completions
 - Architectural decisions
 - Significant technical debt
 - Metric changes
+- New Kiro specs
 
 ### ❌ Deleting History
 Never delete from Decision Log. Mark decisions as superseded instead.
 
 ### ❌ Vague Updates
 ❌ "Updated implementation"
-✅ "Added rate limiting service to Implementation, marked TD-001 as resolved"
+✅ "Added rate limiting service to Implementation, marked TD-001 as resolved, added .kiro/specs/rate-limiting/ to Related Specs"

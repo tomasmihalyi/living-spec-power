@@ -2,25 +2,61 @@
 
 This guide walks through creating a new Living Spec from scratch.
 
+## Before You Start: Check for Existing Specs
+
+Before creating a Living Spec, Kiro will:
+
+1. **Check for existing Living Specs** in `.kiro/specs/`
+2. **Check for existing Kiro feature specs** in `.kiro/specs/`
+3. **Suggest the appropriate approach:**
+   - If no Living Spec exists → Offer to create one as the project's source of truth
+   - If a Living Spec exists → Offer to reference new specs in it
+   - For complex projects (3+ specs) → Recommend the Living Spec architecture
+
+### If No Living Spec Exists
+
+Kiro will ask:
+> "I noticed you don't have a Living Spec yet. Would you like to create one as the source of truth for your project? It will reference all your feature specs and provide unified context for business goals, metrics, and architectural decisions."
+
+### If a Living Spec Already Exists
+
+Kiro will:
+- Validate that existing specs are referenced in the Living Spec
+- Offer to add any missing references
+- Suggest updates if the Living Spec is out of sync
+
 ## Step 1: Determine the Scope
 
 Before creating, decide the scope:
 
-**Domain-level** (recommended for most cases):
-- Covers a system or bounded context
-- References multiple Kiro specs
-- Examples: `commerce-platform.living.md`, `user-management.living.md`
+**Project-level** (recommended as source of truth):
+- Covers the entire project or system
+- References all Kiro feature specs
+- Single source of truth for business goals, metrics, decisions
+- Example: `project.living.md`, `commerce-platform.living.md`
 
-**Feature-level** (for standalone features):
+**Domain-level** (for large projects with multiple domains):
+- Covers a bounded context within a larger system
+- Referenced by the project-level Living Spec
+- Examples: `payments.living.md`, `user-management.living.md`
+
+**Feature-level** (for standalone complex features):
 - Covers a single significant feature
 - Self-contained, doesn't reference other specs
 - Examples: `expense-categorization.living.md`, `notification-system.living.md`
 
 ## Step 2: Create the File
 
+Living Specs are created in `.kiro/specs/` for consistency with Kiro's spec-driven workflow:
+
 ```bash
-mkdir -p specs
-touch specs/[name].living.md
+mkdir -p .kiro/specs
+touch .kiro/specs/[name].living.md
+```
+
+Or simply ask Kiro:
+```
+Create a Living Spec for [project/feature name]
 ```
 
 ## Step 3: Fill in the Template
@@ -28,11 +64,12 @@ touch specs/[name].living.md
 Use this template structure:
 
 ```markdown
-# Living Spec: [Feature/Domain Name]
+# Living Spec: [Project/Feature Name]
 
 > **Last Updated**: [Today's date]
 > **Owner**: @[username]
 > **Status**: 🟡 In Progress
+> **Type**: Project Source of Truth | Domain | Feature
 
 ---
 
@@ -77,7 +114,9 @@ Use this template structure:
 | XR-001 | [Requirement] | [Systems] | ⬚ |
 
 ### Related Specs
-- [Link to Kiro specs if applicable]
+| Spec | Path | Status | Description |
+|------|------|--------|-------------|
+| [Feature Name] | `.kiro/specs/[feature]/` | ⬚ | [Brief description] |
 
 ---
 
@@ -172,7 +211,25 @@ Use this template structure:
 | [Today] | @[username] | Initial creation |
 ```
 
-## Step 4: Fill in Early Sections First
+## Step 4: Reference Existing Specs
+
+If you have existing Kiro specs, add them to the "Related Specs" table:
+
+```markdown
+### Related Specs
+| Spec | Path | Status | Description |
+|------|------|--------|-------------|
+| User Authentication | `.kiro/specs/user-auth/` | ✅ Complete | Login, signup, password reset |
+| Payment Processing | `.kiro/specs/payments/` | 🔄 In Progress | Stripe integration |
+| Inventory Management | `.kiro/specs/inventory/` | ⬚ Not Started | Stock tracking system |
+```
+
+Ask Kiro to help:
+```
+Scan .kiro/specs/ and add all existing Kiro specs to the Related Specs section
+```
+
+## Step 5: Fill in Early Sections First
 
 Start with sections 1-3 (Intent, Requirements, Architecture). These establish the foundation.
 
@@ -186,12 +243,13 @@ Start with sections 1-3 (Intent, Requirements, Architecture). These establish th
 - 3-5 core functional requirements
 - Key non-functional requirements (performance, security)
 - Any cross-cutting concerns
+- References to all existing Kiro specs
 
 **Section 3: Architecture** - Document:
 - At least one key decision with rationale
 - Initial technology choices
 
-## Step 5: Leave Placeholders for Later Sections
+## Step 6: Leave Placeholders for Later Sections
 
 Sections 4-7 fill in as you build:
 - **Implementation**: Update as you write code
@@ -232,4 +290,10 @@ Don't just list debt—specify when to address it:
 |----|-------------|-------------------|--------|
 | TD-001 | No rate limiting | 1000+ users | ⚠️ Monitor |
 | TD-002 | Single region | >100ms latency from EU | ⬚ |
+```
+
+### Keep Related Specs Updated
+When you create a new Kiro spec, always add it to the Living Spec:
+```
+I just created a new spec for [feature]. Add it to the Related Specs in .kiro/specs/project.living.md
 ```

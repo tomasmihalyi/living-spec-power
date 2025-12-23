@@ -16,6 +16,48 @@ Living Specs solve the documentation explosion problem in AI-driven development.
 
 **The Solution:** One file. Seven sections. Everything your AI assistant needs.
 
+## Living Spec as Source of Truth
+
+A Living Spec serves as the **single source of truth** for your entire project. It:
+- References and tracks all Kiro feature specs in `.kiro/specs/`
+- Provides project-wide context (business goals, metrics, architectural decisions, tech debt)
+- Acts as the "master spec" that ties all feature-level specs together
+
+This creates a hierarchical architecture:
+```
+.kiro/specs/
+├── project.living.md          # Source of truth - references all specs below
+├── feature-a/                  # Kiro feature spec
+│   ├── requirements.md
+│   ├── design.md
+│   └── tasks.md
+├── feature-b/                  # Kiro feature spec
+│   ├── requirements.md
+│   ├── design.md
+│   └── tasks.md
+└── feature-c.living.md         # Standalone Living Spec for complex features
+```
+
+## Kiro Integration Behavior
+
+When this power is installed, Kiro will:
+
+### When Creating a New Spec
+1. Check if a Living Spec exists in `.kiro/specs/`
+2. If no Living Spec exists → Suggest creating one as the project's source of truth
+3. If a Living Spec exists → Offer to add a reference to the new spec in the Living Spec's "Related Specs" section
+
+### When Working with Existing Specs
+1. Validate that the Living Spec (if exists) references the spec being worked on
+2. If the spec isn't referenced → Suggest adding it to maintain the source of truth
+3. For complex projects → Suggest the Living Spec architecture if not already in place
+
+### Contextual Suggestions
+Kiro will suggest the Living Spec architecture based on:
+- Number of existing specs (3+ specs suggests need for coordination)
+- Project complexity indicators (multiple domains, cross-cutting concerns)
+- When a user explicitly asks to create or work with specs
+
 ## Available Steering Files
 
 - **creating** - Step-by-step guide to create a new Living Spec
@@ -40,20 +82,21 @@ Living Specs solve the documentation explosion problem in AI-driven development.
 
 ### 1. Create Your First Living Spec
 
-```bash
-mkdir -p specs
+Ask Kiro:
+```
+Create a new Living Spec for [your project/feature]
 ```
 
-Then ask Kiro:
-```
-Create a new Living Spec for [your feature] in specs/
-```
+Kiro will:
+- Create the file in `.kiro/specs/[name].living.md`
+- Check for existing specs and offer to reference them
+- Guide you through the initial sections
 
 ### 2. Reference It When Working
 
 When starting work on a feature:
 ```
-Read specs/my-feature.living.md and help me implement FR-003
+Read .kiro/specs/project.living.md and help me implement FR-003
 ```
 
 ### 3. Keep It Updated
@@ -64,6 +107,8 @@ Review my changes to src/api/handler.ts and update the Living Spec
 ```
 
 ## What Makes Living Specs Different
+
+**Source of Truth:** The Living Spec is the authoritative reference for your project, linking all feature specs and providing unified context.
 
 **Bidirectional Sync:** Spec changes drive code changes. Code changes update the spec. Your AI assistant handles both directions.
 
@@ -78,6 +123,7 @@ Review my changes to src/api/handler.ts and update the Living Spec
 - Systems where multiple people need context
 - Projects using AI assistants heavily
 - Teams following AI-DLC or spec-driven development
+- Projects with multiple Kiro specs that need coordination
 
 **Overkill for:**
 - Bug fixes
@@ -89,18 +135,35 @@ Review my changes to src/api/handler.ts and update the Living Spec
 Living Specs complement Kiro's spec-driven development:
 
 - **Kiro specs** → Feature-level planning (requirements, design, tasks)
-- **Living Specs** → Domain-level context (business goals, metrics, decisions, tech debt)
+- **Living Specs** → Project-level context (business goals, metrics, decisions, tech debt)
 
-Create Living Specs at the system/domain level, referencing Kiro specs for feature details:
+Create a Living Spec at the project level as your source of truth, referencing Kiro specs for feature details:
 
 ```
-.kiro/specs/                          # Feature planning
-├── payment-processing/
-└── inventory-management/
+.kiro/specs/
+├── project.living.md              # Source of truth for the project
+├── payment-processing/            # Kiro feature spec
+│   ├── requirements.md
+│   ├── design.md
+│   └── tasks.md
+├── inventory-management/          # Kiro feature spec
+│   ├── requirements.md
+│   ├── design.md
+│   └── tasks.md
+└── user-experience.living.md      # Domain-specific Living Spec (optional)
+```
 
-specs/                                # Operational context
-├── commerce-platform.living.md       # References multiple Kiro specs
-└── user-experience.living.md         # Cross-cutting concerns
+### Referencing Kiro Specs in Living Specs
+
+In your Living Spec's Requirements section, reference related Kiro specs:
+
+```markdown
+### Related Specs
+| Spec | Path | Status | Description |
+|------|------|--------|-------------|
+| Payment Processing | `.kiro/specs/payment-processing/` | 🔄 In Progress | Core payment flow |
+| Inventory Management | `.kiro/specs/inventory-management/` | ⬚ Not Started | Stock tracking |
+| User Onboarding | `.kiro/specs/user-onboarding/` | ✅ Complete | First-time user flow |
 ```
 
 ## Best Practices
@@ -115,21 +178,25 @@ specs/                                # Operational context
 | Ship to production | 5. Metrics, 7. Next Actions |
 | Take shortcuts | 4. Implementation (Tech Debt) |
 | Complete work | 7. Next Actions (move to completed) |
+| Create a new Kiro spec | 2. Requirements (Related Specs) |
 
 ### File Naming
 
+- Project-level: `project.living.md` or `[project-name].living.md`
 - Domain-level: `commerce-platform.living.md`
 - Feature-level: `expense-categorization.living.md`
 - Always use `.living.md` extension
 
 ### Location
 
-Place Living Specs in `specs/` at your project root:
+Place all specs in `.kiro/specs/` for consistency with Kiro's spec-driven workflow:
 ```
 project/
-├── specs/
-│   ├── core-platform.living.md
-│   └── user-experience.living.md
+├── .kiro/
+│   └── specs/
+│       ├── project.living.md        # Source of truth
+│       ├── feature-a/               # Kiro feature specs
+│       └── feature-b/
 ├── src/
 └── ...
 ```
@@ -138,16 +205,16 @@ project/
 
 ### "My Living Spec is getting too long"
 
-Split by domain, not by section. Create separate Living Specs for distinct systems:
-- `specs/payments.living.md`
-- `specs/inventory.living.md`
-- `specs/analytics.living.md`
+Split by domain, not by section. Create separate Living Specs for distinct systems while keeping one as the primary source of truth:
+- `.kiro/specs/project.living.md` (primary, references others)
+- `.kiro/specs/payments.living.md`
+- `.kiro/specs/inventory.living.md`
 
 ### "AI isn't updating the spec"
 
 Be explicit in your prompts:
 ```
-Update specs/my-feature.living.md:
+Update .kiro/specs/project.living.md:
 - Mark FR-003 as implemented
 - Add the caching decision to the Decision Log
 - Update Next Actions
@@ -162,6 +229,13 @@ That's the point! Living Specs evolve. Use status indicators:
 - ❌ Dropped
 
 Log why requirements changed in Section 6 (Decision Log).
+
+### "Kiro specs aren't referenced in the Living Spec"
+
+Ask Kiro to validate and update:
+```
+Review .kiro/specs/ and ensure all Kiro specs are referenced in the Living Spec
+```
 
 ## Resources
 
