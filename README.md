@@ -16,12 +16,11 @@ Living Specs solve the documentation explosion problem in AI-driven development.
 
 ## Smart Spec Orchestration
 
-Living Specs intelligently manages the relationship with Kiro specs:
+Living Specs manages the relationship with Kiro specs based on user choice:
 
-- **At project start**: Asks whether you prefer Kiro specs or Living Spec
-- **At 3+ specs**: Suggests creating a Living Spec for coordination
-- **When creating specs**: Offers to add references to the Living Spec
-- **Cross-cutting concerns**: Identifies when content should move to Living Spec
+- **At project start**: Asks whether you prefer Kiro Spec or Living Spec (AI-DLC approach)
+- **On existing projects**: Applies Living Spec only when user explicitly requests it
+- **When creating specs**: Offers to add references to the Living Spec if one exists
 
 ## Installation
 
@@ -32,16 +31,18 @@ Living Specs intelligently manages the relationship with Kiro specs:
 
 ## Usage
 
-After installation, use in chat:
+At project start, Kiro will ask your preference:
 
 ```
-Create a Living Spec for my authentication system
+# Kiro asks:
+"How would you like to organize this project?"
+A) Kiro Spec - formal methodology with separate files
+B) Living Spec (AI-DLC approach) - single consolidated file
 ```
 
-Or let Kiro suggest it when your project grows:
+To add a Living Spec to an existing project:
 ```
-# Kiro will prompt when you have 3+ Kiro specs:
-"Would you like me to create a Living Spec to coordinate your feature specs?"
+Create a Living Spec for this project
 ```
 
 ## Steering Files

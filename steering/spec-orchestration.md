@@ -1,6 +1,6 @@
 # Spec Orchestration Guide
 
-How Kiro manages the relationship between Living Specs and Kiro Specs, and when to suggest each approach.
+How Kiro manages the relationship between Living Specs and Kiro Specs based on user choice.
 
 ## The Two-Level Architecture
 
@@ -18,8 +18,8 @@ How Kiro manages the relationship between Living Specs and Kiro Specs, and when 
 └── complex-feature.living.md   # Feature Living Spec (for very complex features)
 ```
 
-**Living Spec** = Project orchestrator (the "what" and "why" at project level)
-**Kiro Specs** = Feature implementation (the "how" for specific features)
+**Living Spec (AI-DLC approach)** = Project orchestrator with hypothesis-driven development
+**Kiro Specs** = Feature implementation with formal methodology
 
 ## Decision Flow: Which Approach to Use
 
@@ -29,42 +29,47 @@ When user initiates a new project, Kiro asks:
 
 > "How would you like to organize this project?"
 > 
-> **A) Kiro Specs** - Separate requirements.md, design.md, tasks.md per feature
->    - Best for: Single features, formal methodology, property-based testing
->    - You can add a Living Spec later when complexity grows
+> **A) Kiro Spec** - Separate requirements.md, design.md, tasks.md per feature
+>    - Formal methodology with EARS format requirements
+>    - Property-based testing support
+>    - Best for: Teams preferring structured spec-driven development
 > 
-> **B) Living Spec** - Single consolidated file as source of truth
->    - Best for: Projects needing unified context, multiple concerns, AI-heavy development
->    - Can reference Kiro specs for feature details as needed
+> **B) Living Spec (AI-DLC approach)** - Single consolidated file as source of truth
+>    - Hypothesis-driven with phase tracking (Planning → Building → Operating)
+>    - Integrated decision logging and cost tracking
+>    - Best for: AI-heavy development, unified context, rapid iteration
 
-### During Development
+User choice determines the workflow. Kiro does NOT automatically suggest switching approaches.
 
-Kiro monitors `.kiro/specs/` and suggests based on complexity:
+### On Existing Projects
 
-| Spec Count | Kiro Behavior |
-|------------|---------------|
-| 0 specs | Ask user preference (A or B above) |
-| 1-2 specs | Continue with chosen approach, mention alternatives |
-| 3-5 specs | Suggest Living Spec if not exists: "Consider coordinating with a Living Spec" |
-| 6+ specs | Strongly recommend: "A Living Spec would help maintain coherence" |
+Living Specs are added **only when the user explicitly requests it**:
 
-### Complexity Triggers
+- "Create a Living Spec for this project"
+- "Add a Living Spec to coordinate my specs"
+- "I want to use the AI-DLC approach now"
 
-Beyond spec count, Kiro suggests Living Spec when:
-- Multiple specs share architectural concerns
-- User asks about "overall project" or "how things connect"
-- Cross-cutting requirements emerge (auth, logging, error handling)
-- User mentions needing "unified context" or "project overview"
-- Technical debt spans multiple features
-- Metrics need project-level tracking
+### Switching Approaches
+
+Users can switch or combine approaches at any time by asking:
+
+**Adding Living Spec to Kiro Specs project:**
+```
+Create a Living Spec and reference my existing Kiro specs
+```
+
+**Adding Kiro Specs to Living Spec project:**
+```
+Create a Kiro spec for [feature] and reference it from the Living Spec
+```
 
 
 ## When to Use Each Approach
 
-### Use Kiro Specs For:
+### Use Kiro Spec For:
 
-| Scenario | Why Kiro Specs |
-|----------|----------------|
+| Scenario | Why Kiro Spec |
+|----------|---------------|
 | Individual features with clear boundaries | Focused scope, detailed tracking |
 | Detailed requirements needing EARS format | Formal methodology support |
 | Features requiring property-based testing | Correctness properties in design.md |
@@ -72,60 +77,41 @@ Beyond spec count, Kiro suggests Living Spec when:
 | Design decisions specific to one feature | Contained in feature's design.md |
 | Teams familiar with spec-driven development | Matches existing workflow |
 
-### Use Living Spec For:
+### Use Living Spec (AI-DLC approach) For:
 
 | Scenario | Why Living Spec |
 |----------|-----------------|
 | Project-wide context and goals | Single source of truth |
+| Hypothesis-driven development | Intent + validation tracking |
 | Cross-cutting architectural decisions | Affects multiple features |
 | Unified metrics dashboard | Business + technical metrics |
 | Technical debt spanning features | Centralized tracking |
-| Decision history affecting multiple specs | Historical context |
-| Coordinating 3+ Kiro specs | Orchestration layer |
-| Hypothesis-driven or validation projects | Intent + validation tracking |
-| Solo developers or small teams | Less overhead, unified context |
+| Decision history with rationale | Historical context |
 | AI-heavy development | Better context for AI assistants |
+| Rapid iteration with phase tracking | Planning → Building → Operating |
 
 ### Use Both Together For:
 
 | Scenario | How They Work Together |
 |----------|------------------------|
-| Complex projects (6+ features) | Living Spec coordinates, Kiro specs detail |
+| Complex projects with many features | Living Spec coordinates, Kiro specs detail |
 | Teams with mixed preferences | Some features formal, project unified |
-| Evolving projects | Start simple, add structure as needed |
 | Projects with shared infrastructure | Living Spec for infra, Kiro specs for features |
 
-## Automatic Behaviors
+## Kiro Behaviors
 
-### Spec Count Monitoring
+### Reference Management (when Living Spec exists)
 
-Kiro tracks specs in `.kiro/specs/` and suggests appropriately:
-
-**At 3 specs (no Living Spec):**
-> "I notice you have 3 feature specs now. Would you like me to create a 
-> Living Spec to coordinate them? It would provide:
-> - Unified project context and goals
-> - Cross-cutting architectural decisions
-> - Consolidated metrics and tech debt tracking
-> - Single reference point for AI context"
-
-**At 6 specs (no Living Spec):**
-> "With 6 specs, a Living Spec is recommended to maintain coherence.
-> Should I create one and reference all existing specs?"
-
-### Reference Management
-
-When Living Spec exists and new Kiro spec is created:
+When a Living Spec exists and user creates a new Kiro spec:
 1. Kiro offers to add to "Related Kiro Specs" table
 2. Suggests relevant Living Spec sections to update
-3. Identifies if new spec introduces cross-cutting concerns
 
 ### Context Loading
 
 When working on a feature with both spec types:
 - Kiro loads the feature's Kiro spec for implementation detail
 - Kiro loads the Living Spec for project context
-- Both inform AI recommendations and decisions
+- Both inform AI recommendations
 
 ## Migration Patterns
 

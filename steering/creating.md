@@ -4,40 +4,39 @@ This guide walks through creating a new Living Spec from scratch.
 
 ## Before Creating: Choose Your Approach
 
-At project start, Kiro will ask which approach fits your needs:
+At project start, Kiro asks which approach you prefer:
 
-### Option A: Start with Kiro Specs
-- Create feature specs (requirements.md, design.md, tasks.md) as needed
-- Add Living Spec later when complexity grows (3+ specs)
-- Best for: Focused features, formal methodology, property-based testing
+### Option A: Kiro Spec
+- Separate files: requirements.md, design.md, tasks.md per feature
+- EARS format for requirements
+- Property-based testing support
+- Best for: Formal methodology, structured task tracking
 
-### Option B: Start with Living Spec
-- Single source of truth from day one
-- Reference Kiro specs as features are defined
-- Best for: Uncertain scope, AI-heavy development, need unified context
+### Option B: Living Spec (AI-DLC approach)
+- Single consolidated file as source of truth
+- Hypothesis-driven with phase tracking (Planning → Building → Operating)
+- Integrated decision logging and cost awareness
+- Best for: AI-heavy development, unified context, rapid iteration
 
-### Kiro's Smart Suggestions
-| Project State | Kiro Behavior |
-|---------------|---------------|
-| No specs yet | Asks which approach you prefer |
-| 1-2 specs exist | Continues with Kiro specs, mentions Living Spec option |
-| 3+ specs exist | Proactively suggests creating a Living Spec |
-| 6+ specs exist | Strongly recommends Living Spec for coherence |
+### Adding Living Spec to Existing Project
+
+If you already have Kiro specs and want to add a Living Spec later:
+```
+Create a Living Spec for this project and reference my existing specs
+```
+
+Kiro will scan for existing specs and offer to reference them.
 
 ## Check for Existing Specs
 
 Before creating a Living Spec, Kiro will:
 
 1. **Scan `.kiro/specs/`** for existing Kiro feature specs
-2. **Count complexity** - number of specs, shared concerns
-3. **Suggest appropriate action:**
-   - If no specs → Create Living Spec as foundation
-   - If 1-2 specs → Offer Living Spec as optional coordination layer
-   - If 3+ specs → Recommend Living Spec, offer to reference all existing specs
+2. **Offer to reference** any existing specs in the Living Spec
 
 ### If Kiro Specs Already Exist
 
-Kiro will ask:
+When you request a Living Spec on an existing project, Kiro will ask:
 > "I found [N] existing Kiro specs. Would you like me to:
 > A) Create a Living Spec and reference all of them
 > B) Create a Living Spec and let you choose which to reference

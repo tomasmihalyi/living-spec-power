@@ -2,19 +2,16 @@
 
 This guide covers how to keep Living Specs in sync with your codebase, Kiro specs, and evolving requirements.
 
-## Core Principle: Two-Level Architecture
+## Core Principle: User-Chosen Architecture
 
-The Living Spec is the **project-level source of truth**. It must:
-- Reference all Kiro feature specs in `.kiro/specs/`
-- Track cross-cutting concerns and decisions
-- Stay in sync with code changes
-- Coordinate feature-level work
+The user chooses their approach at project start:
+- **Kiro Spec**: Feature-level detail with formal methodology (EARS, property-based testing)
+- **Living Spec (AI-DLC approach)**: Project-level source of truth with hypothesis-driven development
 
-Kiro specs handle **feature-level detail**. They contain:
-- Detailed requirements (EARS format)
-- Feature-specific design decisions
-- Implementation tasks
-- Property-based testing specs
+If using both, the Living Spec coordinates Kiro specs by:
+- Referencing all Kiro feature specs in `.kiro/specs/`
+- Tracking cross-cutting concerns and decisions
+- Providing unified project context
 
 Your AI assistant handles bidirectional sync when you're explicit about what changed.
 

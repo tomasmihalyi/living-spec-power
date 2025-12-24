@@ -42,76 +42,80 @@ This creates a two-level architecture:
 
 ## Kiro Integration Behavior
 
-### At Project Start (No Specs Exist)
+### At Project Start (New Project)
 
 When a user starts a new project, Kiro asks:
 
 > "How would you like to organize this project?"
 > 
-> **A) Kiro Specs** - Separate requirements.md, design.md, tasks.md per feature
->    Best for: Single features, formal methodology, property-based testing
+> **A) Kiro Spec** - Separate requirements.md, design.md, tasks.md per feature
+>    - Formal methodology with EARS format requirements
+>    - Property-based testing support
+>    - Best for: Teams preferring structured spec-driven development
 > 
-> **B) Living Spec** - Single consolidated file as source of truth
->    Best for: Projects needing unified context, multiple concerns, AI-heavy development
-> 
-> You can always add a Living Spec later when the project grows.
+> **B) Living Spec (AI-DLC approach)** - Single consolidated file as source of truth
+>    - Hypothesis-driven with phase tracking (Planning → Building → Operating)
+>    - Integrated decision logging and cost tracking
+>    - Best for: AI-heavy development, unified context, rapid iteration
 
-### During Development (Complexity Detection)
+User choice determines the workflow for the project.
 
-Kiro monitors `.kiro/specs/` and triggers suggestions based on complexity:
+### On Existing Projects
 
-**At 3+ Kiro Specs:**
-> "I notice you have [N] feature specs now. Would you like me to create a 
-> Living Spec to coordinate them? It would provide:
-> - Unified project context and goals
-> - Cross-cutting architectural decisions  
-> - Consolidated metrics and tech debt tracking
-> - Single reference point for AI context"
+Living Specs are applied to existing projects **only when the user explicitly requests it**:
 
-**At 6+ Kiro Specs:**
-> "With [N] specs, a Living Spec is recommended to maintain coherence.
-> Should I create one and reference all existing specs?"
+```
+Create a Living Spec for this project
+```
+or
+```
+Add a Living Spec to coordinate my existing specs
+```
+
+When requested on an existing project, Kiro will:
+1. Scan `.kiro/specs/` for existing Kiro specs
+2. Create the Living Spec with project-level content
+3. Offer to reference all existing Kiro specs in the Related Specs table
+4. Identify any cross-cutting concerns to consolidate
 
 ### When Creating New Kiro Specs (Living Spec Exists)
 
-1. Kiro automatically offers to add reference to Living Spec's "Related Kiro Specs" table
-2. Suggests which Living Spec sections might need updates based on the new spec's content
-3. Identifies if the new spec introduces cross-cutting concerns
-
-### Complexity Detection Triggers
-
-Kiro suggests Living Spec creation when:
-- 3+ Kiro specs exist in `.kiro/specs/`
-- Multiple specs share architectural concerns
-- User asks about "overall project" or "how things connect"
-- Cross-cutting requirements emerge (auth, logging, error handling)
-- User mentions needing "unified context" or "project overview"
+If a Living Spec already exists and user creates a new Kiro spec:
+1. Kiro offers to add reference to Living Spec's "Related Kiro Specs" table
+2. Suggests which Living Spec sections might need updates
 
 ## When to Use Each Approach
 
-### Use Kiro Specs For:
+### Use Kiro Spec For:
 - Individual features with clear boundaries
 - Detailed requirements needing EARS format
 - Features requiring property-based testing
 - Implementation task tracking
 - Design decisions specific to one feature
+- Teams preferring formal spec-driven methodology
 
-### Use Living Spec For:
+### Use Living Spec (AI-DLC approach) For:
 - Project-wide context and goals
+- Hypothesis-driven or validation-stage projects
 - Cross-cutting architectural decisions
 - Unified metrics dashboard
 - Technical debt that spans features
-- Decision history affecting multiple specs
-- Coordinating 3+ Kiro specs
-- Hypothesis-driven or validation-stage projects
+- Decision history with rationale
+- AI-heavy development needing unified context
+- Rapid iteration with phase tracking
 
-### Complexity-Based Recommendations
+### When Each Approach Works Best
 
-| Project State | Recommendation |
-|---------------|----------------|
-| Simple (0-2 specs) | Kiro specs sufficient, Living Spec optional |
-| Growing (3-5 specs) | Kiro suggests Living Spec for coordination |
-| Complex (6+ specs) | Living Spec essential for coherence |
+| Scenario | Recommended Approach |
+|----------|---------------------|
+| Formal methodology preference | Kiro Spec |
+| Property-based testing needed | Kiro Spec |
+| Single feature focus | Kiro Spec |
+| AI-heavy development | Living Spec |
+| Need unified project context | Living Spec |
+| Hypothesis-driven/validation stage | Living Spec |
+| Multiple cross-cutting concerns | Living Spec |
+| Want to coordinate existing specs | Living Spec (add when needed) |
 
 ## Available Steering Files
 
