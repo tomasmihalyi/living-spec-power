@@ -2,53 +2,61 @@
 
 This guide covers how to keep Living Specs in sync with your codebase, Kiro specs, and evolving requirements.
 
-## Core Principle: Source of Truth
+## Core Principle: Two-Level Architecture
 
-The Living Spec is the **single source of truth** for your project. It must:
+The Living Spec is the **project-level source of truth**. It must:
 - Reference all Kiro feature specs in `.kiro/specs/`
+- Track cross-cutting concerns and decisions
 - Stay in sync with code changes
-- Reflect current architectural decisions and metrics
+- Coordinate feature-level work
+
+Kiro specs handle **feature-level detail**. They contain:
+- Detailed requirements (EARS format)
+- Feature-specific design decisions
+- Implementation tasks
+- Property-based testing specs
 
 Your AI assistant handles bidirectional sync when you're explicit about what changed.
 
-## Validating Spec References
+## Managing Kiro Spec References
+
+### When New Kiro Specs Are Created
+
+Kiro will automatically prompt:
+> "Add [new-spec] to the Living Spec's Related Kiro Specs table?"
+
+If yes, Kiro updates:
+```markdown
+| [Feature Name] | `.kiro/specs/[path]/` | ⬚ Not Started | [Description] |
+```
 
 ### Periodic Validation
 
-Ask Kiro to validate that all specs are properly referenced:
+Ask Kiro to check alignment:
 ```
-Review .kiro/specs/ and ensure all Kiro specs are referenced in the Living Spec's Related Specs section
+Validate that all Kiro specs in .kiro/specs/ are referenced in the Living Spec
 ```
 
 Kiro will:
 1. Scan `.kiro/specs/` for all feature spec folders
-2. Compare against the Related Specs table in the Living Spec
+2. Compare against the Related Kiro Specs table
 3. Report any missing references
 4. Offer to add them
 
-### When Creating New Specs
-
-When you create a new Kiro spec, Kiro will automatically:
-1. Check if a Living Spec exists
-2. If yes → Offer to add the new spec to Related Specs
-3. If no → Suggest creating a Living Spec as the source of truth
-
 ### Keeping References Current
 
-Update the Related Specs table when:
+Update the Related Kiro Specs table when:
 - A new Kiro spec is created
 - A spec is completed or archived
 - A spec's status changes
 
-```markdown
-### Related Specs
-| Spec | Path | Status | Description |
-|------|------|--------|-------------|
-| User Auth | `.kiro/specs/user-auth/` | ✅ Complete | Login, signup, password reset |
-| Payments | `.kiro/specs/payments/` | 🔄 In Progress | Stripe integration |
-| Inventory | `.kiro/specs/inventory/` | ⬚ Not Started | Stock tracking |
-| Analytics | `.kiro/specs/analytics/` | ❌ Dropped | Moved to third-party solution |
-```
+Status indicators:
+- ⬚ Not Started
+- 🔄 In Progress
+- ✅ Complete
+- ❌ Dropped
+- ⏸️ Deferred
+
 
 ## Bidirectional Sync
 
@@ -74,25 +82,18 @@ this pivot and add a new success criteria for mobile adoption.
 
 ### Section 2: Requirements
 **Update when:**
-- Requirements are implemented (change status)
-- New requirements are added
+- Project-level requirements change status
+- New cross-cutting requirements are added
 - Requirements are dropped or deferred
-- Priority changes
-- New Kiro specs are created (add to Related Specs)
-
-**Status indicators:**
-- ⬚ Not Started
-- 🔄 In Progress
-- ✅ Implemented
-- ❌ Dropped
-- ⏸️ Deferred
+- New Kiro specs are created (add to Related Kiro Specs)
+- Kiro spec status changes
 
 **Example prompt:**
 ```
-I just finished implementing FR-003 (CSV export) in src/api/exports.ts.
+I just created a new Kiro spec at .kiro/specs/notifications/.
 Update .kiro/specs/project.living.md:
-- Mark FR-003 as implemented
-- Add FR-004 for PDF export to the backlog
+- Add to Related Kiro Specs table
+- Add PR-005 for cross-cutting notification preferences
 ```
 
 ### Section 3: Architecture
@@ -101,6 +102,7 @@ Update .kiro/specs/project.living.md:
 - Existing decisions are superseded
 - Technology stack changes
 - New integrations are added
+- Cost estimates change
 
 **Decision status flow:**
 - Proposed → Accepted → (optionally) Deprecated/Superseded
@@ -112,6 +114,7 @@ Update the Architecture section:
 - Mark the REST decision as superseded
 - Add a new decision for GraphQL with rationale
 - Update the Technology Stack table
+- Note cost impact if any
 ```
 
 ### Section 4: Implementation
@@ -120,7 +123,7 @@ Update the Architecture section:
 - Files are moved or renamed
 - Technical debt is introduced
 - Technical debt is resolved
-- Dependencies change
+- Execution plan phases complete
 
 **Example prompt:**
 ```
@@ -137,7 +140,7 @@ Update the Implementation section in .kiro/specs/project.living.md
 - New measurements are available
 - Targets are adjusted
 - Metrics are added or removed
-- Status changes (hitting/missing targets)
+- Assumptions are validated or invalidated
 
 **Example prompt:**
 ```
@@ -146,6 +149,7 @@ We launched last week. Here are the initial metrics:
 - Categorization accuracy: 91% (target: 85%)
 
 Update the Metrics section with current values and status indicators.
+Also mark the "users want auto-categorization" assumption as validated.
 ```
 
 ### Section 6: Decision Log
@@ -176,10 +180,89 @@ Log this decision with:
 **Example prompt:**
 ```
 Sprint update for .kiro/specs/project.living.md:
-- Completed: CSV export (FR-003)
+- Completed: CSV export (PR-003)
 - New blocker: SSO implementation waiting on enterprise contract
 - New high priority: Rate limiting before we hit 1000 users
 ```
+
+
+## Promoting Content Between Levels
+
+### Moving Content to Living Spec
+
+When patterns emerge across Kiro specs:
+1. Identify shared decisions/requirements
+2. Move to appropriate Living Spec section
+3. Reference from Kiro specs: "See Living Spec Section 3 for architecture"
+
+### Extracting to Kiro Spec
+
+When Living Spec section becomes too detailed (50+ lines for a feature):
+1. Create Kiro spec folder: `.kiro/specs/[feature-name]/`
+2. Move detailed requirements to `requirements.md`
+3. Move design details to `design.md`
+4. Create `tasks.md` for implementation tracking
+5. Keep summary in Living Spec
+6. Add to Related Kiro Specs table
+
+## Handling Common Scenarios
+
+### New Kiro Spec Not Referenced
+
+If Kiro detects a spec that isn't in the Living Spec:
+> "I noticed .kiro/specs/new-feature/ isn't referenced in your Living Spec.
+> Would you like me to add it to the Related Kiro Specs section?"
+
+### Requirements Changed Mid-Sprint
+
+1. Update the requirement status and description
+2. Log the change in Decision Log with context
+3. Adjust Next Actions
+
+```markdown
+## 6. Decision Log
+| Date | Decision | Context | Outcome |
+|------|----------|---------|---------|
+| 2024-02-15 | Changed PR-003 scope | Customer feedback | 🔄 In Progress |
+```
+
+### Technical Debt Was Introduced
+
+Add to the Tech Debt Register with a trigger condition:
+
+```markdown
+| ID | Description | Trigger Condition | Severity | Status |
+|----|-------------|-------------------|----------|--------|
+| TD-003 | Hardcoded API keys | Before open-sourcing | 🔴 High | ⬚ |
+| TD-004 | No pagination | >1000 records | ⚠️ Medium | ⬚ |
+```
+
+### Architecture Decision Was Wrong
+
+Don't delete—supersede:
+
+```markdown
+#### Decision: REST API (SUPERSEDED)
+- **Date**: 2024-01-15
+- **Status**: Superseded by GraphQL decision (2024-02-20)
+- **Choice**: REST API
+- **Outcome**: ❌ Mobile team found REST too chatty
+
+#### Decision: GraphQL API
+- **Date**: 2024-02-20
+- **Status**: Accepted
+- **Context**: REST API required too many round trips for mobile
+- **Choice**: GraphQL with Apollo Server
+- **Rationale**: Single request for complex data needs
+```
+
+### Phase Transitions
+
+When moving between phases (Planning → Building → Operating):
+1. Update the Phase indicator in the header
+2. Log the transition in Decision Log
+3. Review and update Next Actions for new phase
+4. Never auto-transition—always confirm with user
 
 ## Sync Patterns
 
@@ -189,10 +272,11 @@ Sprint update for .kiro/specs/project.living.md:
 I just implemented [feature] in [files].
 
 Update .kiro/specs/project.living.md:
-1. Mark [requirement ID] as implemented
+1. Mark related requirement as implemented
 2. Add any new components to Implementation section
 3. Log any decisions made during implementation
 4. Move completed tasks in Next Actions
+5. Update Related Kiro Specs status if applicable
 ```
 
 ### After Creating a New Kiro Spec
@@ -201,9 +285,9 @@ Update .kiro/specs/project.living.md:
 I just created a new Kiro spec at .kiro/specs/[feature-name]/.
 
 Update .kiro/specs/project.living.md:
-1. Add the new spec to Related Specs table
-2. Add any high-level requirements to the Requirements section
-3. Update Next Actions with initial tasks
+1. Add the new spec to Related Kiro Specs table
+2. Add any project-level requirements to Requirements section
+3. Update Next Actions with coordination tasks
 ```
 
 ### After a Planning Session
@@ -225,121 +309,10 @@ We launched [feature] to production.
 
 Update .kiro/specs/project.living.md:
 1. Update Metrics section with baseline measurements
-2. Add any post-launch tasks to Next Actions
-3. Note the launch in Decision Log
-4. Update Related Specs status if a Kiro spec was completed
-```
-
-### During Code Review
-
-```
-Review my changes to [files] and suggest updates to
-.kiro/specs/project.living.md if any sections need updating.
-```
-
-## Handling Common Scenarios
-
-### New Kiro Spec Not Referenced
-
-If Kiro detects a spec that isn't in the Living Spec:
-```
-I noticed .kiro/specs/new-feature/ isn't referenced in your Living Spec.
-Would you like me to add it to the Related Specs section?
-```
-
-### Requirements Changed Mid-Sprint
-
-1. Update the requirement status and description
-2. Log the change in Decision Log with context
-3. Adjust Next Actions
-
-```markdown
-## 6. Decision Log
-| Date | Decision | Context | Outcome |
-|------|----------|---------|---------|
-| 2024-02-15 | Changed FR-003 from CSV to Excel export | Customer feedback: 80% use Excel | 🔄 In Progress |
-```
-
-### Technical Debt Was Introduced
-
-Add to the Tech Debt Register with a trigger condition:
-
-```markdown
-| ID | Description | Trigger Condition | Priority | Status |
-|----|-------------|-------------------|----------|--------|
-| TD-003 | Hardcoded API keys | Before open-sourcing | 🔴 Critical | |
-| TD-004 | No pagination | >1000 records | ⚠️ Monitor | |
-```
-
-### Architecture Decision Was Wrong
-
-Don't delete—supersede:
-
-```markdown
-#### Decision: REST API (SUPERSEDED)
-- **Date**: 2024-01-15
-- **Status**: Superseded by GraphQL decision (2024-02-20)
-- **Choice**: REST API
-- **Outcome**: ❌ Mobile team found REST too chatty for their use case
-
-#### Decision: GraphQL API
-- **Date**: 2024-02-20
-- **Status**: Accepted
-- **Context**: REST API required too many round trips for mobile
-- **Choice**: GraphQL with Apollo Server
-- **Rationale**: Single request for complex data needs
-```
-
-### Metrics Aren't Being Hit
-
-Update status and add action items:
-
-```markdown
-## 5. Metrics
-| Metric | Target | Current | Trend | Status |
-|--------|--------|---------|-------|--------|
-| Activation rate | 40% | 32% | ↓ | 🔴 |
-
-## 7. Next Actions
-### Current Sprint
-- [ ] **HIGH**: Investigate activation drop - @alice
-- [ ] **HIGH**: A/B test onboarding flow changes
-```
-
-## Automation Tips
-
-### Git Hooks
-
-Consider a pre-commit reminder:
-```bash
-# .git/hooks/pre-commit
-if git diff --cached --name-only | grep -q "^src/"; then
-  echo "📝 Remember to update the Living Spec if needed"
-fi
-```
-
-### PR Templates
-
-Add to your PR template:
-```markdown
-## Living Spec Updates
-- [ ] Updated Related Specs (if new Kiro spec created)
-- [ ] Updated Implementation section (if new/moved files)
-- [ ] Logged decisions in Decision Log (if applicable)
-- [ ] Updated requirement status (if completing a requirement)
-- [ ] N/A - No spec updates needed
-```
-
-### Periodic Reviews
-
-Schedule monthly reviews:
-```
-Review .kiro/specs/project.living.md for staleness:
-- Are all Kiro specs in .kiro/specs/ referenced in Related Specs?
-- Are all requirement statuses current?
-- Are metrics up to date?
-- Is the tech debt register accurate?
-- Are Next Actions reflecting current priorities?
+2. Update Phase to 🟡 Operating if appropriate
+3. Add any post-launch tasks to Next Actions
+4. Note the launch in Decision Log
+5. Update Related Kiro Specs status
 ```
 
 ## Anti-Patterns to Avoid
@@ -363,4 +336,7 @@ Never delete from Decision Log. Mark decisions as superseded instead.
 
 ### ❌ Vague Updates
 ❌ "Updated implementation"
-✅ "Added rate limiting service to Implementation, marked TD-001 as resolved, added .kiro/specs/rate-limiting/ to Related Specs"
+✅ "Added rate limiting service, marked TD-001 resolved, added .kiro/specs/rate-limiting/ to Related Specs"
+
+### ❌ Duplicating Detail
+Keep feature details in Kiro specs, project context in Living Spec. Don't duplicate.

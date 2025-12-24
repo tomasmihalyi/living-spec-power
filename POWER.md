@@ -1,8 +1,8 @@
 ---
 name: "living-specs"
 displayName: "Living Specs"
-description: "Consolidate all development artifacts into single, AI-maintainable specification files. Reduce documentation fragmentation and enable bidirectional sync between specs and code."
-keywords: ["specs", "documentation", "requirements", "architecture", "ai-dlc", "spec-driven", "living-spec"]
+description: "Consolidate all development artifacts into single, AI-maintainable specification files. Intelligently orchestrates Kiro specs and proposes Living Specs when project complexity grows."
+keywords: ["specs", "documentation", "requirements", "architecture", "ai-dlc", "spec-driven", "living-spec", "orchestration"]
 author: "AWS"
 ---
 
@@ -14,92 +14,156 @@ Living Specs solve the documentation explosion problem in AI-driven development.
 
 **The Problem:** AI assistants need context to be effective, but that context fragments across requirements docs, architecture decisions, implementation notes, and metrics dashboards. The coordination overhead drowns your progress.
 
-**The Solution:** One file. Seven sections. Everything your AI assistant needs.
+**The Solution:** One file. Seven sections. Smart orchestration of Kiro specs.
 
-## Living Spec as Source of Truth
+## Living Spec as Project Orchestrator
 
-A Living Spec serves as the **single source of truth** for your entire project. It:
-- References and tracks all Kiro feature specs in `.kiro/specs/`
-- Provides project-wide context (business goals, metrics, architectural decisions, tech debt)
-- Acts as the "master spec" that ties all feature-level specs together
+A Living Spec serves as the **project-level source of truth** that:
+- Provides unified project context (goals, architecture, metrics, decisions)
+- References and coordinates Kiro feature specs in `.kiro/specs/`
+- Tracks cross-cutting concerns that span multiple features
+- Maintains decision history and technical debt register
+- Grows with your project complexity
 
-This creates a hierarchical architecture:
+This creates a two-level architecture:
 ```
 .kiro/specs/
-├── project.living.md          # Source of truth - references all specs below
-├── feature-a/                  # Kiro feature spec
+├── project.living.md          # Project-level: orchestrates everything below
+├── feature-a/                  # Feature-level: detailed implementation
 │   ├── requirements.md
 │   ├── design.md
 │   └── tasks.md
-├── feature-b/                  # Kiro feature spec
+├── feature-b/
 │   ├── requirements.md
 │   ├── design.md
 │   └── tasks.md
-└── feature-c.living.md         # Standalone Living Spec for complex features
+└── feature-c.living.md         # Complex feature needing its own Living Spec
 ```
 
 ## Kiro Integration Behavior
 
-When this power is installed, Kiro will:
+### At Project Start (No Specs Exist)
 
-### When Creating a New Spec
-1. Check if a Living Spec exists in `.kiro/specs/`
-2. If no Living Spec exists → Suggest creating one as the project's source of truth
-3. If a Living Spec exists → Offer to add a reference to the new spec in the Living Spec's "Related Specs" section
+When a user starts a new project, Kiro asks:
 
-### When Working with Existing Specs
-1. Validate that the Living Spec (if exists) references the spec being worked on
-2. If the spec isn't referenced → Suggest adding it to maintain the source of truth
-3. For complex projects → Suggest the Living Spec architecture if not already in place
+> "How would you like to organize this project?"
+> 
+> **A) Kiro Specs** - Separate requirements.md, design.md, tasks.md per feature
+>    Best for: Single features, formal methodology, property-based testing
+> 
+> **B) Living Spec** - Single consolidated file as source of truth
+>    Best for: Projects needing unified context, multiple concerns, AI-heavy development
+> 
+> You can always add a Living Spec later when the project grows.
 
-### Contextual Suggestions
-Kiro will suggest the Living Spec architecture based on:
-- Number of existing specs (3+ specs suggests need for coordination)
-- Project complexity indicators (multiple domains, cross-cutting concerns)
-- When a user explicitly asks to create or work with specs
+### During Development (Complexity Detection)
+
+Kiro monitors `.kiro/specs/` and triggers suggestions based on complexity:
+
+**At 3+ Kiro Specs:**
+> "I notice you have [N] feature specs now. Would you like me to create a 
+> Living Spec to coordinate them? It would provide:
+> - Unified project context and goals
+> - Cross-cutting architectural decisions  
+> - Consolidated metrics and tech debt tracking
+> - Single reference point for AI context"
+
+**At 6+ Kiro Specs:**
+> "With [N] specs, a Living Spec is recommended to maintain coherence.
+> Should I create one and reference all existing specs?"
+
+### When Creating New Kiro Specs (Living Spec Exists)
+
+1. Kiro automatically offers to add reference to Living Spec's "Related Kiro Specs" table
+2. Suggests which Living Spec sections might need updates based on the new spec's content
+3. Identifies if the new spec introduces cross-cutting concerns
+
+### Complexity Detection Triggers
+
+Kiro suggests Living Spec creation when:
+- 3+ Kiro specs exist in `.kiro/specs/`
+- Multiple specs share architectural concerns
+- User asks about "overall project" or "how things connect"
+- Cross-cutting requirements emerge (auth, logging, error handling)
+- User mentions needing "unified context" or "project overview"
+
+## When to Use Each Approach
+
+### Use Kiro Specs For:
+- Individual features with clear boundaries
+- Detailed requirements needing EARS format
+- Features requiring property-based testing
+- Implementation task tracking
+- Design decisions specific to one feature
+
+### Use Living Spec For:
+- Project-wide context and goals
+- Cross-cutting architectural decisions
+- Unified metrics dashboard
+- Technical debt that spans features
+- Decision history affecting multiple specs
+- Coordinating 3+ Kiro specs
+- Hypothesis-driven or validation-stage projects
+
+### Complexity-Based Recommendations
+
+| Project State | Recommendation |
+|---------------|----------------|
+| Simple (0-2 specs) | Kiro specs sufficient, Living Spec optional |
+| Growing (3-5 specs) | Kiro suggests Living Spec for coordination |
+| Complex (6+ specs) | Living Spec essential for coherence |
 
 ## Available Steering Files
 
 - **creating** - Step-by-step guide to create a new Living Spec
-- **maintaining** - How to keep Living Specs in sync with code
+- **maintaining** - How to keep Living Specs in sync with code and Kiro specs
+- **spec-orchestration** - When and how to use Living Specs vs Kiro Specs
 
 ## Living Spec Structure
 
-**Early Development:**
-1. **Intent** - Problem statement, success criteria, failure triggers, scope
-2. **Requirements** - Functional, non-functional, and cross-cutting requirements
-3. **Architecture** - Decisions with inline ADRs, tech stack, integrations
+A Living Spec has seven sections that cover the full development lifecycle:
 
-**Build Phase:**
-4. **Implementation** - Component map, API contracts, technical debt register
-5. **Metrics** - Business and technical metrics with targets and status
+**Planning Phase (🔵):**
+1. **Intent** - Problem statement, hypothesis (optional), success criteria, scope
+2. **Requirements** - Project-level requirements + Related Kiro Specs table
+3. **Architecture** - Key decisions with inline ADRs, tech stack, cost considerations
 
-**Iterate Phase:**
-6. **Decision Log** - Historical choices with outcomes
-7. **Next Actions** - Current sprint, backlog, blocked items
+**Building Phase (🟢):**
+4. **Implementation** - Execution plan, component map, technical debt register
+5. **Metrics** - Business and technical metrics, validation status
+
+**Operating Phase (🟡):**
+6. **Decision Log** - Historical choices with context and outcomes
+7. **Next Actions** - Current focus, backlog, blocked items
 
 ## Quick Start
 
-### 1. Create Your First Living Spec
+### 1. Choose Your Approach
 
-Ask Kiro:
+When starting a project, tell Kiro your preference:
 ```
-Create a new Living Spec for [your project/feature]
+I want to use Kiro specs for this project
+```
+or
+```
+Create a Living Spec for [your project]
 ```
 
-Kiro will:
-- Create the file in `.kiro/specs/[name].living.md`
-- Check for existing specs and offer to reference them
-- Guide you through the initial sections
+### 2. Let Complexity Guide You
 
-### 2. Reference It When Working
+If you start with Kiro specs, Kiro will suggest a Living Spec when:
+- You reach 3+ feature specs
+- Cross-cutting concerns emerge
+- You need unified project context
+
+### 3. Reference It When Working
 
 When starting work on a feature:
 ```
-Read .kiro/specs/project.living.md and help me implement FR-003
+Read .kiro/specs/project.living.md and help me implement PR-003
 ```
 
-### 3. Keep It Updated
+### 4. Keep It Updated
 
 After making changes:
 ```
@@ -108,7 +172,9 @@ Review my changes to src/api/handler.ts and update the Living Spec
 
 ## What Makes Living Specs Different
 
-**Source of Truth:** The Living Spec is the authoritative reference for your project, linking all feature specs and providing unified context.
+**Smart Orchestration:** Kiro knows when to suggest a Living Spec based on project complexity, not arbitrary rules.
+
+**Two-Level Architecture:** Living Specs handle project-level concerns while Kiro specs handle feature-level detail. Each does what it's best at.
 
 **Bidirectional Sync:** Spec changes drive code changes. Code changes update the spec. Your AI assistant handles both directions.
 
@@ -116,54 +182,139 @@ Review my changes to src/api/handler.ts and update the Living Spec
 
 **Historically Aware:** Decision rationale lives inline. When someone asks "why DynamoDB?", the answer is in Section 6.
 
-## When to Use Living Specs
+**Phase-Aware:** Optional phase tracking (Planning → Building → Operating) for projects that benefit from structured progression.
 
-**Good fit:**
-- Features requiring upfront planning
-- Systems where multiple people need context
-- Projects using AI assistants heavily
-- Teams following AI-DLC or spec-driven development
-- Projects with multiple Kiro specs that need coordination
-
-**Overkill for:**
-- Bug fixes
-- Trivial changes
-- One-off scripts
-
-## Using with Kiro Specs
-
-Living Specs complement Kiro's spec-driven development:
-
-- **Kiro specs** → Feature-level planning (requirements, design, tasks)
-- **Living Specs** → Project-level context (business goals, metrics, decisions, tech debt)
-
-Create a Living Spec at the project level as your source of truth, referencing Kiro specs for feature details:
-
-```
-.kiro/specs/
-├── project.living.md              # Source of truth for the project
-├── payment-processing/            # Kiro feature spec
-│   ├── requirements.md
-│   ├── design.md
-│   └── tasks.md
-├── inventory-management/          # Kiro feature spec
-│   ├── requirements.md
-│   ├── design.md
-│   └── tasks.md
-└── user-experience.living.md      # Domain-specific Living Spec (optional)
-```
-
-### Referencing Kiro Specs in Living Specs
-
-In your Living Spec's Requirements section, reference related Kiro specs:
+## Living Spec Template
 
 ```markdown
-### Related Specs
+# Living Spec: [Project Name]
+
+> **Last Updated**: [date]
+> **Phase**: 🔵 Planning | 🟢 Building | 🟡 Operating
+> **Owner**: @[username]
+> **Type**: Project Source of Truth
+
+---
+
+## 1. Intent
+
+### Problem Statement
+[What problem, who experiences it, what's the impact]
+
+### Hypothesis (optional)
+| Element | Description |
+|---------|-------------|
+| Problem | |
+| Solution | |
+| Customer | |
+| Value Prop | |
+
+### Success Criteria
+| Criteria | Target | Current | Status |
+|----------|--------|---------|--------|
+| 🎯 Primary | | | ⬚ |
+| 📈 Secondary | | | ⬚ |
+
+### Failure Triggers
+- [ ] [Condition that means pivot or stop]
+
+### Scope
+**In Scope:** 
+**Out of Scope:**
+
+---
+
+## 2. Requirements
+
+### Project-Level Requirements
+| ID | Requirement | Priority | Status | Spec Reference |
+|----|-------------|----------|--------|----------------|
+| PR-001 | [Cross-cutting requirement] | HIGH | ⬚ | - |
+
+### Related Kiro Specs
 | Spec | Path | Status | Description |
 |------|------|--------|-------------|
-| Payment Processing | `.kiro/specs/payment-processing/` | 🔄 In Progress | Core payment flow |
-| Inventory Management | `.kiro/specs/inventory-management/` | ⬚ Not Started | Stock tracking |
-| User Onboarding | `.kiro/specs/user-onboarding/` | ✅ Complete | First-time user flow |
+| [Feature] | `.kiro/specs/[name]/` | ⬚ | [Brief description] |
+
+---
+
+## 3. Architecture
+
+### System Overview
+[High-level diagram or description]
+
+### Key Decisions
+#### Decision: [Name]
+- **Date**: 
+- **Phase**: 
+- **Context**: 
+- **Options**: 
+- **Choice**: 
+- **Rationale**: 
+- **Trade-offs**: 
+- **Cost Impact**: 
+
+### Technology Stack
+| Layer | Technology | Rationale | Est. Cost |
+|-------|------------|-----------|-----------|
+
+---
+
+## 4. Implementation
+
+### Execution Plan (optional)
+| Phase | Name | Goal | Duration | Status |
+|-------|------|------|----------|--------|
+
+### Component Map
+| Component | Location | Description | Related Spec |
+|-----------|----------|-------------|--------------|
+
+### Technical Debt Register
+| ID | Description | Trigger Condition | Severity | Status |
+|----|-------------|-------------------|----------|--------|
+
+---
+
+## 5. Metrics
+
+### Business Metrics
+| Metric | Target | Current | Status |
+|--------|--------|---------|--------|
+
+### Technical Metrics
+| Metric | Target | Current | Status |
+|--------|--------|---------|--------|
+
+### Validation Status (optional)
+| Assumption | Validated? | Evidence |
+|------------|------------|----------|
+
+---
+
+## 6. Decision Log
+
+| Date | Decision | Context | Outcome |
+|------|----------|---------|---------|
+
+---
+
+## 7. Next Actions
+
+### Current Focus
+- [ ] **HIGH**: [task]
+
+### Backlog
+### Blocked
+### Completed
+
+---
+
+## Appendix
+
+### Glossary
+### Change History
+| Date | Author | Change |
 ```
 
 ## Best Practices
@@ -172,13 +323,13 @@ In your Living Spec's Requirements section, reference related Kiro specs:
 
 | When you... | Update these sections |
 |-------------|----------------------|
-| Start a feature | 1. Intent, 2. Requirements |
+| Start a project | 1. Intent, 2. Requirements |
 | Make architecture decisions | 3. Architecture, 6. Decision Log |
+| Create a new Kiro spec | 2. Requirements (Related Kiro Specs) |
 | Write code | 4. Implementation |
 | Ship to production | 5. Metrics, 7. Next Actions |
 | Take shortcuts | 4. Implementation (Tech Debt) |
-| Complete work | 7. Next Actions (move to completed) |
-| Create a new Kiro spec | 2. Requirements (Related Specs) |
+| Complete work | 7. Next Actions |
 
 ### File Naming
 
@@ -189,7 +340,7 @@ In your Living Spec's Requirements section, reference related Kiro specs:
 
 ### Location
 
-Place all specs in `.kiro/specs/` for consistency with Kiro's spec-driven workflow:
+Place all specs in `.kiro/specs/` for consistency:
 ```
 project/
 ├── .kiro/
@@ -205,7 +356,7 @@ project/
 
 ### "My Living Spec is getting too long"
 
-Split by domain, not by section. Create separate Living Specs for distinct systems while keeping one as the primary source of truth:
+Split by domain, not by section. Create separate Living Specs for distinct systems:
 - `.kiro/specs/project.living.md` (primary, references others)
 - `.kiro/specs/payments.living.md`
 - `.kiro/specs/inventory.living.md`
@@ -220,22 +371,16 @@ Update .kiro/specs/project.living.md:
 - Update Next Actions
 ```
 
-### "Requirements keep changing"
-
-That's the point! Living Specs evolve. Use status indicators:
-- ⬚ Not Started
-- 🔄 In Progress  
-- ✅ Implemented
-- ❌ Dropped
-
-Log why requirements changed in Section 6 (Decision Log).
-
 ### "Kiro specs aren't referenced in the Living Spec"
 
 Ask Kiro to validate and update:
 ```
 Review .kiro/specs/ and ensure all Kiro specs are referenced in the Living Spec
 ```
+
+### "When should I extract a Kiro spec from the Living Spec?"
+
+When a feature section becomes too detailed (50+ lines of requirements), extract to a Kiro spec and keep a summary in the Living Spec.
 
 ## Resources
 

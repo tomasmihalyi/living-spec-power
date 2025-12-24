@@ -2,28 +2,46 @@
 
 This guide walks through creating a new Living Spec from scratch.
 
-## Before You Start: Check for Existing Specs
+## Before Creating: Choose Your Approach
+
+At project start, Kiro will ask which approach fits your needs:
+
+### Option A: Start with Kiro Specs
+- Create feature specs (requirements.md, design.md, tasks.md) as needed
+- Add Living Spec later when complexity grows (3+ specs)
+- Best for: Focused features, formal methodology, property-based testing
+
+### Option B: Start with Living Spec
+- Single source of truth from day one
+- Reference Kiro specs as features are defined
+- Best for: Uncertain scope, AI-heavy development, need unified context
+
+### Kiro's Smart Suggestions
+| Project State | Kiro Behavior |
+|---------------|---------------|
+| No specs yet | Asks which approach you prefer |
+| 1-2 specs exist | Continues with Kiro specs, mentions Living Spec option |
+| 3+ specs exist | Proactively suggests creating a Living Spec |
+| 6+ specs exist | Strongly recommends Living Spec for coherence |
+
+## Check for Existing Specs
 
 Before creating a Living Spec, Kiro will:
 
-1. **Check for existing Living Specs** in `.kiro/specs/`
-2. **Check for existing Kiro feature specs** in `.kiro/specs/`
-3. **Suggest the appropriate approach:**
-   - If no Living Spec exists → Offer to create one as the project's source of truth
-   - If a Living Spec exists → Offer to reference new specs in it
-   - For complex projects (3+ specs) → Recommend the Living Spec architecture
+1. **Scan `.kiro/specs/`** for existing Kiro feature specs
+2. **Count complexity** - number of specs, shared concerns
+3. **Suggest appropriate action:**
+   - If no specs → Create Living Spec as foundation
+   - If 1-2 specs → Offer Living Spec as optional coordination layer
+   - If 3+ specs → Recommend Living Spec, offer to reference all existing specs
 
-### If No Living Spec Exists
+### If Kiro Specs Already Exist
 
 Kiro will ask:
-> "I noticed you don't have a Living Spec yet. Would you like to create one as the source of truth for your project? It will reference all your feature specs and provide unified context for business goals, metrics, and architectural decisions."
-
-### If a Living Spec Already Exists
-
-Kiro will:
-- Validate that existing specs are referenced in the Living Spec
-- Offer to add any missing references
-- Suggest updates if the Living Spec is out of sync
+> "I found [N] existing Kiro specs. Would you like me to:
+> A) Create a Living Spec and reference all of them
+> B) Create a Living Spec and let you choose which to reference
+> C) Just create the Living Spec, I'll add references later"
 
 ## Step 1: Determine the Scope
 
@@ -32,7 +50,7 @@ Before creating, decide the scope:
 **Project-level** (recommended as source of truth):
 - Covers the entire project or system
 - References all Kiro feature specs
-- Single source of truth for business goals, metrics, decisions
+- Single source of truth for goals, metrics, decisions
 - Example: `project.living.md`, `commerce-platform.living.md`
 
 **Domain-level** (for large projects with multiple domains):
@@ -41,13 +59,13 @@ Before creating, decide the scope:
 - Examples: `payments.living.md`, `user-management.living.md`
 
 **Feature-level** (for standalone complex features):
-- Covers a single significant feature
-- Self-contained, doesn't reference other specs
-- Examples: `expense-categorization.living.md`, `notification-system.living.md`
+- Covers a single significant feature too complex for standard Kiro spec
+- Self-contained, may not reference other specs
+- Examples: `ml-pipeline.living.md`, `notification-system.living.md`
 
 ## Step 2: Create the File
 
-Living Specs are created in `.kiro/specs/` for consistency with Kiro's spec-driven workflow:
+Living Specs are created in `.kiro/specs/`:
 
 ```bash
 mkdir -p .kiro/specs
@@ -67,8 +85,8 @@ Use this template structure:
 # Living Spec: [Project/Feature Name]
 
 > **Last Updated**: [Today's date]
+> **Phase**: 🔵 Planning | 🟢 Building | 🟡 Operating
 > **Owner**: @[username]
-> **Status**: 🟡 In Progress
 > **Type**: Project Source of Truth | Domain | Feature
 
 ---
@@ -78,13 +96,23 @@ Use this template structure:
 ### Problem Statement
 [What problem are we solving? Who experiences it? What's the impact?]
 
+### Hypothesis (optional - for validation-stage projects)
+| Element | Description |
+|---------|-------------|
+| Problem | [Core problem being addressed] |
+| Solution | [Proposed solution approach] |
+| Customer | [Target user/customer] |
+| Value Prop | [Why this solution wins] |
+
 ### Success Criteria
-| Criteria | Target | Measurement Method |
-|----------|--------|-------------------|
-| [Metric] | [Target value] | [How measured] |
+| Criteria | Target | Current | Status |
+|----------|--------|---------|--------|
+| 🎯 Primary | [Main success metric] | - | ⬚ |
+| 📈 Secondary | [Supporting metric] | - | ⬚ |
 
 ### Failure Triggers
 - [ ] [Condition that means we should pivot or stop]
+- [ ] [Another failure condition]
 
 ### Scope
 **In Scope:**
@@ -97,26 +125,18 @@ Use this template structure:
 
 ## 2. Requirements
 
-### Functional Requirements
-| ID | Requirement | Priority | Status |
-|----|-------------|----------|--------|
-| FR-001 | [Requirement] | HIGH | ⬚ Not Started |
+### Project-Level Requirements
+| ID | Requirement | Priority | Status | Spec Reference |
+|----|-------------|----------|--------|----------------|
+| PR-001 | [Cross-cutting requirement] | HIGH | ⬚ | - |
+| PR-002 | [Another project requirement] | MEDIUM | ⬚ | - |
 
-### Non-Functional Requirements
-| ID | Requirement | Target | Status |
-|----|-------------|--------|--------|
-| NFR-001 | Performance | [Target] | ⬚ |
-| NFR-002 | Security | [Target] | ⬚ |
-
-### Cross-Cutting Requirements
-| ID | Requirement | Affects | Status |
-|----|-------------|---------|--------|
-| XR-001 | [Requirement] | [Systems] | ⬚ |
-
-### Related Specs
+### Related Kiro Specs
 | Spec | Path | Status | Description |
 |------|------|--------|-------------|
 | [Feature Name] | `.kiro/specs/[feature]/` | ⬚ | [Brief description] |
+
+*Feature-level requirements live in Kiro specs. This section tracks project-wide concerns and references.*
 
 ---
 
@@ -129,33 +149,39 @@ Use this template structure:
 
 #### Decision: [First Major Decision]
 - **Date**: [Date]
-- **Status**: Proposed
+- **Phase**: 🔵 Planning
 - **Context**: [Why this decision is needed]
 - **Options Considered**:
-  1. [Option A]
-  2. [Option B]
+  1. [Option A] - [pros/cons]
+  2. [Option B] - [pros/cons]
 - **Choice**: [Selected option]
 - **Rationale**: [Why this choice]
 - **Trade-offs**: [What we're accepting]
+- **Cost Impact**: [Estimated cost implications, if relevant]
 
 ### Technology Stack
-| Layer | Technology | Rationale |
-|-------|------------|-----------|
-| [Layer] | [Tech] | [Why] |
+| Layer | Technology | Rationale | Est. Cost |
+|-------|------------|-----------|-----------|
+| [Layer] | [Tech] | [Why] | [Monthly] |
 
 ---
 
 ## 4. Implementation
 
+### Execution Plan (optional - for phased projects)
+| Phase | Name | Goal | Duration | Status |
+|-------|------|------|----------|--------|
+| 1 | [Phase name] | [What it achieves] | [Time] | ⬚ |
+
 ### Component Map
-| Component | Location | Description | Owner |
-|-----------|----------|-------------|-------|
-| [Component] | `src/path/file.ts` | [Description] | @[owner] |
+| Component | Location | Description | Related Spec |
+|-----------|----------|-------------|--------------|
+| [Component] | `src/path/` | [Description] | [Spec if any] |
 
 ### Technical Debt Register
-| ID | Description | Trigger Condition | Priority | Status |
+| ID | Description | Trigger Condition | Severity | Status |
 |----|-------------|-------------------|----------|--------|
-| TD-001 | [Debt item] | [When to address] | ⚠️ Monitor | |
+| TD-001 | [Debt item] | [When to address] | ⚠️ Medium | ⬚ |
 
 ---
 
@@ -172,6 +198,11 @@ Use this template structure:
 | Latency (p99) | [Target] | - | ⬚ |
 | Error rate | [Target] | - | ⬚ |
 
+### Validation Status (optional - for hypothesis-driven projects)
+| Assumption | Validated? | Evidence |
+|------------|------------|----------|
+| [Key assumption] | ⬚ | - |
+
 ---
 
 ## 6. Decision Log
@@ -184,8 +215,8 @@ Use this template structure:
 
 ## 7. Next Actions
 
-### Current Sprint
-- [ ] **HIGH**: [First task] - @[owner]
+### Current Focus
+- [ ] **HIGH**: [First priority task]
 
 ### Backlog
 - [ ] [Future task]
@@ -193,7 +224,7 @@ Use this template structure:
 ### Blocked
 [None yet]
 
-### Recently Completed
+### Completed
 [None yet]
 
 ---
@@ -211,12 +242,12 @@ Use this template structure:
 | [Today] | @[username] | Initial creation |
 ```
 
-## Step 4: Reference Existing Specs
+## Step 4: Reference Existing Kiro Specs
 
-If you have existing Kiro specs, add them to the "Related Specs" table:
+If you have existing Kiro specs, add them to the "Related Kiro Specs" table:
 
 ```markdown
-### Related Specs
+### Related Kiro Specs
 | Spec | Path | Status | Description |
 |------|------|--------|-------------|
 | User Authentication | `.kiro/specs/user-auth/` | ✅ Complete | Login, signup, password reset |
@@ -226,7 +257,7 @@ If you have existing Kiro specs, add them to the "Related Specs" table:
 
 Ask Kiro to help:
 ```
-Scan .kiro/specs/ and add all existing Kiro specs to the Related Specs section
+Scan .kiro/specs/ and add all existing Kiro specs to the Related Kiro Specs section
 ```
 
 ## Step 5: Fill in Early Sections First
@@ -240,14 +271,13 @@ Start with sections 1-3 (Intent, Requirements, Architecture). These establish th
 - What's explicitly out of scope?
 
 **Section 2: Requirements** - Start with:
-- 3-5 core functional requirements
-- Key non-functional requirements (performance, security)
-- Any cross-cutting concerns
+- 3-5 project-level requirements (cross-cutting concerns)
 - References to all existing Kiro specs
+- Note: Feature requirements stay in Kiro specs
 
 **Section 3: Architecture** - Document:
 - At least one key decision with rationale
-- Initial technology choices
+- Initial technology choices with cost estimates
 
 ## Step 6: Leave Placeholders for Later Sections
 
@@ -255,7 +285,7 @@ Sections 4-7 fill in as you build:
 - **Implementation**: Update as you write code
 - **Metrics**: Add targets now, fill current values after launch
 - **Decision Log**: Add entries as decisions are made
-- **Next Actions**: Keep current with your sprint
+- **Next Actions**: Keep current with your work
 
 ## Tips for Good Living Specs
 
@@ -278,22 +308,37 @@ Don't create separate ADR files. Embed decisions in Section 3:
 ```markdown
 #### Decision: Serverless Architecture
 - **Date**: 2024-01-15
+- **Phase**: 🔵 Planning
 - **Choice**: AWS Lambda + DynamoDB
 - **Rationale**: Pay-per-use optimal for unknown traffic
 - **Trade-offs**: Cold starts acceptable for async processing
+- **Cost Impact**: ~$5-20/month at expected scale
 ```
 
 ### Track Technical Debt with Triggers
 Don't just list debt—specify when to address it:
 ```markdown
-| ID | Description | Trigger Condition | Status |
-|----|-------------|-------------------|--------|
-| TD-001 | No rate limiting | 1000+ users | ⚠️ Monitor |
-| TD-002 | Single region | >100ms latency from EU | ⬚ |
+| ID | Description | Trigger Condition | Severity | Status |
+|----|-------------|-------------------|----------|--------|
+| TD-001 | No rate limiting | 1000+ users | 🔴 High | ⬚ |
+| TD-002 | Single region | >100ms latency from EU | ⚠️ Medium | ⬚ |
 ```
 
-### Keep Related Specs Updated
+### Keep Related Kiro Specs Updated
 When you create a new Kiro spec, always add it to the Living Spec:
 ```
-I just created a new spec for [feature]. Add it to the Related Specs in .kiro/specs/project.living.md
+I just created a new spec for [feature]. Add it to the Related Kiro Specs in .kiro/specs/project.living.md
 ```
+
+## When to Extract a Kiro Spec
+
+If a section of your Living Spec grows too detailed (50+ lines for a single feature), extract it:
+
+1. Create a Kiro spec folder: `.kiro/specs/[feature-name]/`
+2. Move detailed requirements to `requirements.md`
+3. Move design details to `design.md`
+4. Create `tasks.md` for implementation tracking
+5. Keep a summary in the Living Spec
+6. Add reference to Related Kiro Specs table
+
+This keeps the Living Spec focused on project-level orchestration.
