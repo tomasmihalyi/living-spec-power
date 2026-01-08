@@ -12,13 +12,15 @@ One file. Seven sections. AI-DLC principles. Solves documentation fragmentation.
 
 ## First-Time Activation
 
-On first trigger, ask user which approach:
+**🛑 MANDATORY: On first trigger, you MUST ask the user which approach before doing anything else.**
 
 | Option | Best For | Creates |
 |--------|----------|---------|
 | A) Living Spec Only | MVPs, small teams (1-5), rapid iteration | Living Spec + maintenance steering |
 | B) Living Spec + Kiro Specs | Multiple features, growing projects | Living Spec orchestrates Kiro specs |
 | C) Kiro Specs Only | Clear feature boundaries, formal EARS | Individual specs (exit this workflow) |
+
+**Do NOT proceed until user responds with A, B, or C.**
 
 For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00-[project].living.md`
 

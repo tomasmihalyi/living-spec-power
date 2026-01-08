@@ -6,6 +6,8 @@ Triggers: User mentions specs/documentation, starts new project, or says "Create
 
 ## First-Time Flow
 
+**🛑 MANDATORY: Always ask user for approach selection. Do NOT skip this step.**
+
 ### Step 1: Present Options
 
 ```
@@ -18,7 +20,7 @@ C) KIRO SPECS ONLY - Clear feature boundaries, formal EARS
 Your choice (A/B/C):
 ```
 
-**Wait for response.**
+**Do NOT proceed until user responds. This is a blocking requirement.**
 
 ### Step 2: Handle Selection
 
