@@ -104,6 +104,19 @@ Review my changes and update the Living Spec
 | #[[file:steering/workflow.md]] | How to create, execute, and maintain Living Specs |
 | #[[file:steering/decisions.md]] | When to use Living Specs vs Kiro Specs vs Full AI-DLC |
 | #[[file:steering/template.md]] | Living Spec template to copy |
+| #[[file:steering/maintenance-template.md]] | Template for project maintenance steering file |
+
+## First-Time Setup
+
+On first activation in a project, the Living Specs power creates a maintenance steering file at `.kiro/steering/living-spec-maintenance.md`. This file:
+
+- Has `inclusion: always` to be included in every interaction
+- Defines the Living Spec as the single source of truth
+- Lists when and how to update the Living Spec
+- Tracks the current spec hierarchy
+- Documents the project strategy/roadmap
+
+This ensures the Living Spec stays current as the project evolves.
 
 ## File Naming
 

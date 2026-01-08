@@ -46,6 +46,8 @@ Living Spec tracks Kiro specs at **phase level** (🔵/🟢/🟡), not task leve
 Create a Living Spec for [project name]
 ```
 
+On first activation, the power creates a maintenance steering file at `.kiro/steering/living-spec-maintenance.md` that ensures the Living Spec stays up-to-date as the single source of truth.
+
 ## File Structure
 
 ```
@@ -55,7 +57,8 @@ living-specs/
 └── steering/
     ├── workflow.md       # How to create, execute, maintain
     ├── decisions.md      # When to use which approach
-    └── template.md       # Living Spec template
+    ├── template.md       # Living Spec template
+    └── maintenance-template.md  # Project steering file template
 ```
 
 ## Resources

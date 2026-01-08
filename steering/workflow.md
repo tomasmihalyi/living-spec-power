@@ -9,6 +9,49 @@ This workflow activates when:
 - User starts a new project and chooses Living Spec approach
 - User requests to add a Living Spec to existing project
 
+## First-Time Setup
+
+**On first activation in a project**, before creating the Living Spec:
+
+### Step 0: Create Maintenance Steering File
+
+Create `.kiro/steering/living-spec-maintenance.md` to ensure the Living Spec stays up-to-date.
+
+**Process:**
+1. Check if `.kiro/steering/living-spec-maintenance.md` exists
+2. If not, create it using template from #[[file:steering/maintenance-template.md]]
+3. Fill in project-specific details:
+   - `{{PROJECT_NAME}}`: Use the project/feature name from user request
+   - `{{SPEC_HIERARCHY}}`: Initially just the Living Spec being created
+   - `{{PROJECT_STRATEGY}}`: Fill after completing Intent section
+
+**Initial Spec Hierarchy (before any Kiro specs exist):**
+```markdown
+| Spec | Path | Phase | Description |
+|------|------|-------|-------------|
+| [Project Name] | `.kiro/specs/[name].living.md` | 🔵 Planning | Main project orchestrator |
+```
+
+**Initial Project Strategy (placeholder until Intent is complete):**
+```markdown
+**Problem**: [To be defined in Planning phase]
+**Hypothesis**: [To be defined if validation-stage project]
+**Success Criteria**: [To be defined in Planning phase]
+**Current Phase**: 🔵 Planning
+**Current Focus**: Complete Intent section
+```
+
+4. After creating the Living Spec and completing the Intent section, update the steering file with actual project details
+
+### Why This Matters
+
+The maintenance steering file:
+- Has `inclusion: always` so it's included in every interaction
+- Reminds the AI to keep the Living Spec updated
+- Documents when and how to update each section
+- Tracks the current spec hierarchy
+- Preserves project strategy context
+
 ## Creating a Living Spec
 
 ### Step 1: Determine Scope
@@ -162,6 +205,18 @@ Keep Current Status updated:
 | 5. Metrics | New measurements, targets adjusted |
 | 6. Decision Log | Any significant decision, phase transitions |
 | 7. Next Actions | Tasks complete, priorities change |
+
+### Updating the Maintenance Steering File
+
+Also update `.kiro/steering/living-spec-maintenance.md` when:
+
+| Change | What to Update |
+|--------|----------------|
+| New Kiro spec created | Add to Spec Hierarchy table |
+| Kiro spec phase changes | Update phase marker in Spec Hierarchy |
+| Project strategy changes | Update Project Strategy section |
+| Phase transition | Update Current Phase in Project Strategy |
+| Priorities change | Update Current Focus in Project Strategy |
 
 ### Decision Logging
 
