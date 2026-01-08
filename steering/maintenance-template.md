@@ -19,7 +19,7 @@ This steering file ensures the Living Spec stays up-to-date as the single source
 
 ## Single Source of Truth
 
-**Living Spec Location**: `.kiro/specs/{{PROJECT_NAME}}.living.md`
+**Living Spec Location**: `.kiro/specs/00-{{PROJECT_NAME}}.living.md`
 
 This file is the authoritative source for:
 - Project intent and goals
@@ -134,7 +134,7 @@ When creating the steering file, replace these placeholders:
 ```markdown
 | Spec | Path | Phase | Description |
 |------|------|-------|-------------|
-| Project | `.kiro/specs/project.living.md` | 🟢 Building | Main orchestrator |
+| Project | `.kiro/specs/00-project.living.md` | 🟢 Building | Main orchestrator |
 | Auth | `.kiro/specs/auth/` | 🔵 Planning | User authentication |
 | Payments | `.kiro/specs/payments/` | ⬚ Not started | Payment processing |
 ```

@@ -24,7 +24,7 @@ Living Specs solve the documentation explosion problem. Instead of fragmenting c
 
 ```
 .kiro/specs/
-├── project.living.md     # Project-level: orchestrates everything
+├── 00-project.living.md  # Project-level: orchestrates everything (sorts first)
 ├── feature-a/            # Feature-level: detailed implementation
 │   ├── requirements.md
 │   ├── design.md

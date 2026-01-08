@@ -34,7 +34,7 @@ Living Spec orchestrates at project level; Kiro specs handle feature detail:
 
 ```
 .kiro/specs/
-├── project.living.md          # Project-level: orchestrates everything
+├── 00-project.living.md        # Project-level: orchestrates everything (sorts first)
 ├── feature-a/                  # Feature-level: detailed implementation
 │   ├── requirements.md
 │   ├── design.md
@@ -120,15 +120,16 @@ This ensures the Living Spec stays current as the project evolves.
 
 ## File Naming
 
-- Project-level: `project.living.md`
-- Domain-level: `payments.living.md`
+- Project-level: `00-project.living.md` (prefix ensures it sorts first)
+- Domain-level: `01-payments.living.md`, `02-auth.living.md`
 - Feature-level: `expense-categorization.living.md`
 - Always use `.living.md` extension
 - Location: `.kiro/specs/`
+- The `00-` prefix ensures the main Living Spec appears at the top of the specs folder
 
 ## Troubleshooting
 
-**Living Spec too long?** Split by domain, not section. Create `payments.living.md`, reference from `project.living.md`.
+**Living Spec too long?** Split by domain, not section. Create `01-payments.living.md`, reference from `00-project.living.md`.
 
 **When to extract Kiro spec?** When a feature needs formal EARS requirements, property-based testing, or 50+ lines of requirements.
 

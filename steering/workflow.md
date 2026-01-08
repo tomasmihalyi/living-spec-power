@@ -29,7 +29,7 @@ Create `.kiro/steering/living-spec-maintenance.md` to ensure the Living Spec sta
 ```markdown
 | Spec | Path | Phase | Description |
 |------|------|-------|-------------|
-| [Project Name] | `.kiro/specs/[name].living.md` | 🔵 Planning | Main project orchestrator |
+| [Project Name] | `.kiro/specs/00-[name].living.md` | 🔵 Planning | Main project orchestrator |
 ```
 
 **Initial Project Strategy (placeholder until Intent is complete):**
@@ -56,13 +56,18 @@ The maintenance steering file:
 
 ### Step 1: Determine Scope
 
-- **Project-level** (recommended): `project.living.md` - covers entire project
-- **Domain-level**: `payments.living.md` - bounded context in large project
+- **Project-level** (recommended): `00-project.living.md` - covers entire project (sorts first)
+- **Domain-level**: `01-payments.living.md` - bounded context in large project
 - **Feature-level**: `ml-pipeline.living.md` - complex standalone feature
 
 ### Step 2: Create File
 
-Location: `.kiro/specs/[name].living.md`
+Location: `.kiro/specs/[prefix-][name].living.md`
+
+**Naming convention:**
+- Use `00-` prefix for the main project Living Spec (ensures it sorts to top)
+- Use `01-`, `02-` etc. for domain-level specs if ordering matters
+- Feature-level specs don't need a prefix
 
 Use template from: #[[file:steering/template.md]]
 
