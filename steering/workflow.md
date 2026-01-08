@@ -38,7 +38,48 @@ Replace `[PROJECT_NAME]` with actual project name.
 Create `.kiro/specs/00-[project].living.md` using #[[file:steering/template.md]]
 
 - **Greenfield**: Set `Project Type: Greenfield`, skip Project Context
-- **Brownfield**: Set `Project Type: Brownfield`, fill Project Context, scan for existing specs
+- **Brownfield**: Set `Project Type: Brownfield`, run reverse engineering (see below)
+
+## Brownfield Reverse Engineering
+
+For brownfield projects, perform codebase analysis before filling the Living Spec.
+
+### Step 1: Scan Codebase
+
+Analyze the project to extract:
+- **Architecture**: Folder structure, layers, patterns (MVC, microservices, monolith, etc.)
+- **Tech Stack**: Languages, frameworks, databases, cloud services
+- **Dependencies**: Key packages from package.json, requirements.txt, pom.xml, go.mod, etc.
+- **Entry Points**: Main files, API routes, handlers, lambdas
+- **Existing Specs**: Any `.kiro/specs/` folders
+
+### Step 2: Auto-Populate Living Spec
+
+Fill these sections from scan results:
+
+| Section | Auto-Populate From |
+|---------|-------------------|
+| Project Context | Architecture, tech stack, dependencies |
+| Component Map | Discovered modules/services/packages |
+| Related Kiro Specs | Existing `.kiro/specs/` folders with phases |
+| Technical Debt | Code smells, TODOs, outdated deps, missing tests |
+
+### Step 3: User Validation
+
+Present findings to user:
+```
+📊 Codebase Analysis Complete
+
+Architecture: [detected pattern]
+Tech Stack: [languages, frameworks]
+Components: [X] discovered
+Existing Specs: [Y] found
+Potential Tech Debt: [Z] items
+
+Review the auto-populated Living Spec and correct any inaccuracies.
+```
+
+**Wait for user confirmation before proceeding to Planning phase.**
 
 ## Phase Execution
 

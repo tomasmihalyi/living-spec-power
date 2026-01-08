@@ -19,11 +19,12 @@
 ## 1. Intent
 
 ### Project Context (Brownfield Only)
-| Aspect | Current State |
-|--------|---------------|
-| Existing Architecture | [Description] |
-| Technology Stack | [Current stack] |
-| Key Dependencies | [Main dependencies] |
+| Aspect | Current State | Source |
+|--------|---------------|--------|
+| Architecture | [Pattern/structure] | [auto/manual] |
+| Tech Stack | [Languages, frameworks] | [auto/manual] |
+| Key Dependencies | [Main packages] | [auto/manual] |
+| Entry Points | [Main files/routes] | [auto/manual] |
 
 ### Problem Statement
 [What problem are we solving? Who experiences it? What's the impact?]
