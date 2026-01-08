@@ -58,12 +58,66 @@ Copy this template when creating a new Living Spec.
 
 ## 2. Requirements
 
-### Requirements Questions
-| Q# | Question | Options | Answer | Status |
-|----|----------|---------|--------|--------|
-| Q1 | [Question] | A) ... B) ... C) ... | | ⬚ |
+---
+### ⚠️ QUESTIONNAIRE - ACTION REQUIRED ⚠️
 
-*Fill Answer column before proceeding to Architecture*
+> **🛑 STOP: You must complete this questionnaire before proceeding to Architecture.**
+> 
+> Kiro will generate questions based on your project. Review each question carefully and provide your answer in the designated space. This is a **blocking requirement** for phase progression.
+
+---
+
+#### Q1: [Question Title]
+**Question:** [Detailed question text]
+
+**Options:**
+- A) [Option A description]
+- B) [Option B description]  
+- C) [Option C description]
+
+**Your Answer:** `_______________`
+
+**Status:** ⬚ Unanswered
+
+---
+
+#### Q2: [Question Title]
+**Question:** [Detailed question text]
+
+**Options:**
+- A) [Option A description]
+- B) [Option B description]
+- C) [Option C description]
+
+**Your Answer:** `_______________`
+
+**Status:** ⬚ Unanswered
+
+---
+
+#### Q3: [Question Title]
+**Question:** [Detailed question text]
+
+**Options:**
+- A) [Option A description]
+- B) [Option B description]
+- C) [Option C description]
+
+**Your Answer:** `_______________`
+
+**Status:** ⬚ Unanswered
+
+---
+
+### Questionnaire Completion Status
+
+| Total Questions | Answered | Remaining | Ready to Proceed? |
+|-----------------|----------|-----------|-------------------|
+| [X] | [0] | [X] | ❌ No |
+
+> **Next Step:** Once all questions are answered, update status markers to ✅ and change "Ready to Proceed?" to "✅ Yes"
+
+---
 
 ### Project-Level Requirements
 | ID | Requirement | Priority | Status | Spec Reference |
@@ -117,7 +171,7 @@ Copy this template when creating a new Living Spec.
 > ⚠️ **PHASE TRANSITION**: Confirm all Planning sections are complete.
 > 
 > - [ ] Intent section complete
-> - [ ] Requirements questions answered
+> - [ ] **Requirements Questionnaire fully answered** (all questions show ✅)
 > - [ ] Architecture decisions approved
 > - [ ] Ready to proceed to Building phase
 

@@ -92,14 +92,25 @@ Use template from: #[[file:steering/template.md]]
 
 **Execute:**
 1. Fill Intent (problem, hypothesis, success criteria, scope)
-2. Generate requirements questions in spec file (not chat)
-3. Wait for user to fill Answer column
-4. Document architecture decisions with timestamps
-5. Get approval for each major decision
+2. Generate requirements questionnaire in spec file (not chat)
+3. **CRITICAL: Notify user that questionnaire must be completed**
+   - Present message: "⚠️ I've added a Requirements Questionnaire to the Living Spec. Please review and answer all questions before we can proceed to Architecture."
+   - Do NOT proceed until all questions have answers
+4. Wait for user to fill in answers for each question
+5. Verify all questions are answered (status changed from ⬚ to ✅)
+6. Document architecture decisions with timestamps
+7. Get approval for each major decision
+
+**Questionnaire Rules:**
+- Questions must be generated in the spec file, not discussed in chat
+- Each question must have clear options (A, B, C, etc.)
+- User must provide explicit answers in the designated space
+- Kiro must check completion status before proceeding
+- If user tries to skip: "🛑 The Requirements Questionnaire has [X] unanswered questions. These must be completed before proceeding to Architecture."
 
 **Completion criteria:**
 - Intent complete with measurable success criteria
-- All requirements questions answered
+- All requirements questions answered (Questionnaire Completion Status shows ✅ Yes)
 - Architecture decisions approved
 
 ### 🟢 Building Phase
