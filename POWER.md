@@ -19,9 +19,8 @@ On first trigger, ask user which approach:
 | A) Living Spec Only | MVPs, small teams (1-5), rapid iteration | Living Spec + maintenance steering |
 | B) Living Spec + Kiro Specs | Multiple features, growing projects | Living Spec orchestrates Kiro specs |
 | C) Kiro Specs Only | Clear feature boundaries, formal EARS | Individual specs (exit this workflow) |
-| D) Full AI-DLC | Enterprise, compliance, 5+ teams | Comprehensive audit trail |
 
-For A/B/D: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00-[project].living.md`
+For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00-[project].living.md`
 
 ## Steering Files
 

@@ -2,12 +2,12 @@
 
 ## Quick Decision
 
-| Factor | Living Spec | Kiro Specs | Full AI-DLC |
-|--------|-------------|------------|-------------|
-| Team size | 1-5 | Any | 5+ |
-| Uncertainty | High | Medium | Low |
-| Iteration | Fast | Moderate | Thorough |
-| Compliance | Basic | Standard | Full audit |
+| Factor | Living Spec | Kiro Specs |
+|--------|-------------|------------|
+| Team size | 1-5 | Any |
+| Uncertainty | High | Medium-Low |
+| Iteration | Fast | Moderate |
+| Compliance | Basic | Standard |
 
 ## By Project Type
 
@@ -16,7 +16,6 @@
 |---------|----------------|
 | MVP, small team, high uncertainty | Living Spec |
 | Clear feature boundaries, EARS needed | Kiro Specs |
-| Enterprise, compliance, 5+ devs | Full AI-DLC |
 | Not sure | Living Spec (grow as needed) |
 
 ### Brownfield
@@ -26,7 +25,6 @@
 | No specs, 4+ features | Living Spec + Kiro Specs |
 | Scattered docs | Living Spec (consolidate) |
 | Has Kiro specs | Add Living Spec as orchestrator |
-| Needs comprehensive analysis | Full AI-DLC first |
 
 ## Living Spec + Kiro Specs
 

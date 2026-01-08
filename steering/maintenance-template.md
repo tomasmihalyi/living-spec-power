@@ -1,6 +1,6 @@
 # Maintenance Steering Template
 
-Create at `.kiro/steering/living-spec-maintenance.md` for options A, B, or D.
+Create at `.kiro/steering/living-spec-maintenance.md` for options A or B.
 
 ## Template
 

@@ -14,21 +14,20 @@ Which approach fits your project?
 A) LIVING SPEC ONLY - MVPs, small teams, rapid iteration
 B) LIVING SPEC + KIRO SPECS - Multiple features, growing projects
 C) KIRO SPECS ONLY - Clear feature boundaries, formal EARS
-D) FULL AI-DLC - Enterprise, compliance, multiple teams
 
-Your choice (A/B/C/D):
+Your choice (A/B/C):
 ```
 
 **Wait for response.**
 
 ### Step 2: Handle Selection
 
-- **A/B/D**: Create maintenance steering file → Create Living Spec
+- **A/B**: Create maintenance steering file → Create Living Spec
 - **C**: Exit workflow, use standard Kiro spec flow
 
 ### Step 3: Create Maintenance Steering File
 
-For A/B/D, create `.kiro/steering/living-spec-maintenance.md` using #[[file:steering/maintenance-template.md]]
+For A/B, create `.kiro/steering/living-spec-maintenance.md` using #[[file:steering/maintenance-template.md]]
 
 Replace `[PROJECT_NAME]` with actual project name.
 
