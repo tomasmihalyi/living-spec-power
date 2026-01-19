@@ -2,7 +2,7 @@
 name: "living-specs"
 displayName: "Living Specs"
 description: "Consolidate development artifacts into single, AI-maintainable specification files with AI-DLC principles."
-keywords: ["specs", "documentation", "requirements", "architecture", "ai-dlc", "spec-driven", "living-spec", "orchestration"]
+keywords: ["specs", "documentation", "requirements", "architecture", "ai-dlc", "spec-driven", "living-spec", "orchestration", "single source of truth", "consolidate", "project documentation"]
 author: "AWS"
 ---
 
@@ -32,6 +32,22 @@ For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00
 | #[[file:steering/decisions.md]] | When to use which approach |
 | #[[file:steering/template.md]] | Living Spec template |
 | #[[file:steering/maintenance-template.md]] | Maintenance steering file template |
+
+### On-Demand Steering (loaded when triggered)
+
+| File | Triggers |
+|------|----------|
+| #[[file:steering/adoption/playbook.md]] | rollout, adoption, pilot |
+| #[[file:steering/drift-detection.md]] | drift, out of sync, spec outdated |
+| #[[file:steering/traceability.md]] | traceability, RTM, QA |
+| #[[file:steering/multi-repo.md]] | multi-repo, microservices |
+| #[[file:steering/compliance/controls.md]] | SOC 2, HIPAA, GDPR, audit |
+| #[[file:steering/integrations/test-tools.md]] | TestRail, Jira Test |
+| #[[file:steering/integrations/incident-tools.md]] | PagerDuty, OpsGenie, incident |
+| #[[file:steering/views/developer.md]] | as a developer, my tasks |
+| #[[file:steering/views/manager.md]] | as a manager, project status |
+| #[[file:steering/views/qa.md]] | as QA, test coverage |
+| #[[file:steering/views/architect.md]] | as architect, design decisions |
 
 ## AI-DLC Phases
 

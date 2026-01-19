@@ -83,6 +83,13 @@
 |------|------|-------|-------------|
 | [Feature] | `.kiro/specs/[name]/` | 🔵/🟢/🟡 | [Brief description] |
 
+### Traceability Matrix
+| Req ID | Design Ref | Task IDs | Test IDs | Status |
+|--------|------------|----------|----------|--------|
+| PR-001 | §3.1 | Stage 1 | - | ⬚ Unlinked |
+
+> **Auto-maintained.** Orphaned items (missing links) flagged with ⬚.
+
 ---
 
 ## 3. Architecture

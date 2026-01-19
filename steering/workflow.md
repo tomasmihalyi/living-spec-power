@@ -22,6 +22,14 @@ Your choice (A/B/C):
 
 **Do NOT proceed until user responds. This is a blocking requirement.**
 
+### Why Living Spec?
+
+> 💡 **For skeptical developers:** This isn't another doc to maintain. The AI updates it as you work. You just approve changes.
+>
+> **Time investment:** 15-30 min setup, then ~2 min per update approval.
+>
+> **What you get:** Single source of truth, no more hunting through wikis, requirements/architecture/tasks in one place.
+
 ### Step 2: Handle Selection
 
 - **A/B**: Create maintenance steering file → Create Living Spec
