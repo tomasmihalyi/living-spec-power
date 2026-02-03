@@ -2,7 +2,7 @@
 
 v2.0 - Multi-Agent Architecture
 
-Enhanced Living Specs power for Kiro with features inspired by Claude Code's living-spec-skill.
+Enhanced Living Specs power for Kiro with multi-agent architecture and advanced workflow features.
 
 ## What It Does
 
@@ -117,6 +117,3 @@ living-spec-power/
         └── architect.md
 ```
 
-## Credits
-
-v2.0 enhancements inspired by [living-spec-skill](https://github.com/tomasmihalyi/living-spec-skill) for Claude Code.
