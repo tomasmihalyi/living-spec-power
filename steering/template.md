@@ -8,6 +8,7 @@
 > **Current Stage**: [Stage within phase]
 > **Project Type**: Greenfield | Brownfield
 > **Owner**: @[username]
+> **Drift Score**: 0%
 
 ## Current Status
 - **Next Action**: [What to do next]
@@ -66,8 +67,6 @@
 
 ---
 
-*Add more questions as needed using same format*
-
 ### Questionnaire Status
 | Total | Answered | Ready to Proceed? |
 |-------|----------|-------------------|
@@ -87,8 +86,6 @@
 | Req ID | Design Ref | Task IDs | Test IDs | Status |
 |--------|------------|----------|----------|--------|
 | PR-001 | §3.1 | Stage 1 | - | ⬚ Unlinked |
-
-> **Auto-maintained.** Orphaned items (missing links) flagged with ⬚.
 
 ---
 
@@ -124,6 +121,7 @@
 > - [ ] Intent complete
 > - [ ] Questionnaire answered (all ✅)
 > - [ ] Architecture approved
+> - [ ] **Comprehension gate passed**
 
 ### Execution Plan
 | Stage | Name | Goal | Status |
@@ -147,6 +145,7 @@
 ### Phase Gate: Building → Operating
 > - [ ] All stages complete
 > - [ ] Tests passing
+> - [ ] **Comprehension gate passed**
 
 ### Business Metrics
 | Metric | Target | Current | Status |
@@ -182,4 +181,12 @@
 
 ### Completed
 [None]
+
+---
+
+## Comprehension Tracking
+
+| Date | Gate | Score | Notes |
+|------|------|-------|-------|
+| - | - | - | - |
 ```

@@ -1,14 +1,25 @@
 ---
 name: "living-specs"
 displayName: "Living Specs"
-description: "Consolidate development artifacts into single, AI-maintainable specification files with AI-DLC principles."
-keywords: ["specs", "documentation", "requirements", "architecture", "ai-dlc", "spec-driven", "living-spec", "orchestration", "single source of truth", "consolidate", "project documentation"]
+description: "Enhanced Living Specs with multi-agent architecture, comprehension gates, tiered approvals, and domain specialists. Consolidates development artifacts into single, AI-maintainable specification files with AI-DLC principles."
+keywords: ["specs", "documentation", "requirements", "architecture", "ai-dlc", "spec-driven", "living-spec", "orchestration", "single source of truth", "consolidate", "project documentation", "multi-agent", "comprehension", "domain-specialist"]
 author: "AWS"
+version: "2.0.0"
 ---
 
 # Living Specs
 
-One file. Seven sections. AI-DLC principles. Solves documentation fragmentation.
+One file. Seven sections. AI-DLC principles. Multi-agent architecture. Solves documentation fragmentation.
+
+## What's New in v2.0
+
+| Feature | Description |
+|---------|-------------|
+| **Multi-Agent Analysis** | Specialized agents work in parallel for brownfield analysis |
+| **Comprehension Gates** | Verify developer understanding at phase transitions |
+| **Tiered Approvals** | Autonomous, async, and blocking updates based on risk |
+| **Domain Specialists** | Context-aware steering for DB/API/Frontend/Security work |
+| **Enhanced Drift Detection** | Git-aware drift scoring with blocking at critical levels |
 
 ## First-Time Activation
 
@@ -32,6 +43,24 @@ For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00
 | #[[file:steering/decisions.md]] | When to use which approach |
 | #[[file:steering/template.md]] | Living Spec template |
 | #[[file:steering/maintenance-template.md]] | Maintenance steering file template |
+
+### Multi-Agent & Advanced Features
+
+| File | Purpose |
+|------|---------|
+| #[[file:steering/multi-agent.md]] | Parallel agent orchestration for analysis |
+| #[[file:steering/comprehension-gates.md]] | Developer understanding checkpoints |
+| #[[file:steering/tiered-approvals.md]] | Risk-based approval system |
+
+### Domain Specialists (loaded when triggered)
+
+| File | Triggers |
+|------|----------|
+| #[[file:steering/specialists/database.md]] | database, schema, migration, SQL |
+| #[[file:steering/specialists/api.md]] | API, endpoint, REST, GraphQL |
+| #[[file:steering/specialists/frontend.md]] | frontend, component, React, UI |
+| #[[file:steering/specialists/security.md]] | security, auth, validation, threats |
+| #[[file:steering/specialists/testing.md]] | test, coverage, QA, testing |
 
 ### On-Demand Steering (loaded when triggered)
 
@@ -57,7 +86,7 @@ For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00
 | 🟢 Building | HOW | 4. Implementation, 5. Metrics |
 | 🟡 Operating | RUN and MEASURE | 6. Decision Log, 7. Next Actions |
 
-**Key rules:** Approval gates before transitions. ISO timestamps. Never auto-transition.
+**Key rules:** Approval gates before transitions. ISO timestamps. Never auto-transition. Comprehension gates at transitions.
 
 ## Two-Level Architecture
 
@@ -71,6 +100,14 @@ For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00
 ```
 
 Living Spec tracks Kiro specs at **phase level** (🔵/🟢/🟡), not task level.
+
+## Tiered Approval System
+
+| Tier | Changes | Behavior |
+|------|---------|----------|
+| **Tier 1: Autonomous** | Timestamps, status icons, drift scores | Auto-updated |
+| **Tier 2: Async Notification** | Component Map, Tech Debt, Next Actions | Update + notify |
+| **Tier 3: Synchronous Approval** | Requirements, Architecture, Phase transitions | Blocks until approved |
 
 ## File Naming
 

@@ -46,48 +46,16 @@ Replace `[PROJECT_NAME]` with actual project name.
 Create `.kiro/specs/00-[project].living.md` using #[[file:steering/template.md]]
 
 - **Greenfield**: Set `Project Type: Greenfield`, skip Project Context
-- **Brownfield**: Set `Project Type: Brownfield`, run reverse engineering (see below)
+- **Brownfield**: Set `Project Type: Brownfield`, run multi-agent reverse engineering (see #[[file:steering/multi-agent.md]])
 
-## Brownfield Reverse Engineering
+## Brownfield Reverse Engineering (Multi-Agent)
 
-For brownfield projects, perform codebase analysis before filling the Living Spec.
+For brownfield projects, use parallel agent analysis. See #[[file:steering/multi-agent.md]] for full details.
 
-### Step 1: Scan Codebase
-
-Analyze the project to extract:
-- **Architecture**: Folder structure, layers, patterns (MVC, microservices, monolith, etc.)
-- **Tech Stack**: Languages, frameworks, databases, cloud services
-- **Dependencies**: Key packages from package.json, requirements.txt, pom.xml, go.mod, etc.
-- **Entry Points**: Main files, API routes, handlers, lambdas
-- **Existing Specs**: Any `.kiro/specs/` folders
-
-### Step 2: Auto-Populate Living Spec
-
-Fill these sections from scan results:
-
-| Section | Auto-Populate From |
-|---------|-------------------|
-| Project Context | Architecture, tech stack, dependencies |
-| Component Map | Discovered modules/services/packages |
-| Related Kiro Specs | Existing `.kiro/specs/` folders with phases |
-| Technical Debt | Code smells, TODOs, outdated deps, missing tests |
-
-### Step 3: User Validation
-
-Present findings to user:
-```
-📊 Codebase Analysis Complete
-
-Architecture: [detected pattern]
-Tech Stack: [languages, frameworks]
-Components: [X] discovered
-Existing Specs: [Y] found
-Potential Tech Debt: [Z] items
-
-Review the auto-populated Living Spec and correct any inaccuracies.
-```
-
-**Wait for user confirmation before proceeding to Planning phase.**
+**Quick summary:** Spawn 3 parallel analysis agents:
+1. `requirements-analyst` - Extract existing requirements
+2. `architecture-reviewer` - Analyze patterns and structure
+3. `risk-assessor` - Identify security, performance, debt
 
 ## Phase Execution
 
@@ -108,6 +76,7 @@ Review the auto-populated Living Spec and correct any inaccuracies.
 2. Update status as work progresses (⬚ → 🔄 → ✅)
 3. Track components and technical debt
 4. Set metric targets
+5. **Activate domain specialists** based on work type (see #[[file:steering/specialists/]])
 
 **Exit criteria**: All stages complete, tests passing
 
@@ -118,9 +87,11 @@ Review the auto-populated Living Spec and correct any inaccuracies.
 3. Validate assumptions with evidence
 4. Log decisions and outcomes
 
-## Phase Transitions
+## Phase Transitions with Comprehension Gates
 
-**Never auto-transition. Always ask for approval.**
+**Never auto-transition. Always ask for approval AND verify comprehension.**
+
+See #[[file:steering/comprehension-gates.md]] for full comprehension gate protocol.
 
 ### Planning → Building
 ```
@@ -129,7 +100,12 @@ Review the auto-populated Living Spec and correct any inaccuracies.
 - Requirements: [X] questions answered
 - Architecture: [Y] decisions approved
 
-Ready to proceed to Building?
+📋 COMPREHENSION CHECK (required before proceeding):
+1. In your own words, what problem does this solve?
+2. What's the main architectural decision and why?
+3. What would make this project fail?
+
+Ready to proceed to Building? (Answer questions first)
 ```
 
 ### Building → Operating
@@ -138,7 +114,12 @@ Ready to proceed to Building?
 - Stages: [X/Y] complete
 - Tests: Passing
 
-Ready to deploy and proceed to Operating?
+📋 COMPREHENSION CHECK (required before proceeding):
+1. What are the key components and how do they interact?
+2. What technical debt was deferred and why?
+3. What metrics will tell us if this is working?
+
+Ready to deploy and proceed to Operating? (Answer questions first)
 ```
 
 ## Session Continuity
@@ -148,33 +129,36 @@ When returning to existing Living Spec:
 Welcome back!
 - Phase: [Phase]
 - Next Action: [Action]
+- Drift Score: [X]%
 
 A) Continue where you left off
 B) Review a previous section
 C) Check Kiro spec statuses
+D) Run drift detection
 ```
 
-## Updating Rules
+## Updating Rules (Tiered Approvals)
 
-### Living Spec Updates
+See #[[file:steering/tiered-approvals.md]] for full details.
 
-| Trigger | Update |
-|---------|--------|
-| Task/stage complete | Execution Plan status |
-| New Kiro spec | Related Kiro Specs table |
-| Architecture decision | Key Decisions section |
-| Scope change | Intent section |
-| Phase complete | Current Status + Decision Log |
-| Technical debt | Tech Debt Register |
-| Priority change | Next Actions |
+### Tier 1: Autonomous (No Approval)
+- Timestamps
+- Status icons (⬚ → 🔄 → ✅)
+- Drift scores
+- Last Updated field
 
-### Maintenance Steering Updates
+### Tier 2: Async Notification (Update + Notify)
+- Component Map additions
+- Tech Debt Register entries
+- Next Actions updates
+- Backlog changes
 
-| Trigger | Update |
-|---------|--------|
-| New Kiro spec | Spec Hierarchy |
-| Spec phase change | Phase marker (🔵→🟢→🟡) |
-| Strategy change | Current Strategy section |
+### Tier 3: Synchronous Approval (Blocks)
+- Requirements changes
+- Architecture decisions
+- Phase transitions
+- Success criteria modifications
+- Scope changes
 
 ### Format Rules
 
@@ -196,3 +180,5 @@ C) Check Kiro spec statuses
 - ❌ Auto-transitioning phases
 - ❌ Skipping timestamps
 - ❌ Deleting history (mark superseded instead)
+- ❌ Skipping comprehension gates
+- ❌ Rubber-stamping without understanding
