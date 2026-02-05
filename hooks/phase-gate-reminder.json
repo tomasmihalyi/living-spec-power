@@ -1,0 +1,12 @@
+{
+  "name": "Phase Gate Reminder",
+  "version": "1.0.0",
+  "description": "Reminds about comprehension gates when significant work is completed",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check if the Living Spec exists and if any phase gate conditions are now met (all tasks in a phase complete, all requirements answered, etc.). If a phase transition is possible, remind the user about the comprehension gate requirement before transitioning."
+  }
+}

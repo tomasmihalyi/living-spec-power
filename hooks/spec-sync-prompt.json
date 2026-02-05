@@ -1,0 +1,12 @@
+{
+  "name": "Spec Sync Prompt",
+  "version": "1.0.0",
+  "description": "Prompts to update Living Spec after completing work",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent", 
+    "prompt": "If a Living Spec exists for this project, check if any updates are needed based on the work just completed. Apply Tier 1 updates automatically (timestamps, status). For Tier 2 updates (component map, tech debt), update and notify. For Tier 3 updates (requirements, architecture), ask for approval."
+  }
+}

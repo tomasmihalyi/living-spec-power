@@ -50,12 +50,14 @@ Create `.kiro/specs/00-[project].living.md` using #[[file:steering/template.md]]
 
 ## Brownfield Reverse Engineering (Multi-Agent)
 
-For brownfield projects, use parallel agent analysis. See #[[file:steering/multi-agent.md]] for full details.
+For brownfield projects, use parallel agent analysis. See #[[file:steering/parallel-analysis.md]] for the complete workflow.
 
 **Quick summary:** Spawn 3 parallel analysis agents:
-1. `requirements-analyst` - Extract existing requirements
-2. `architecture-reviewer` - Analyze patterns and structure
-3. `risk-assessor` - Identify security, performance, debt
+1. `architecture-analyzer` - Structure, patterns, entry points
+2. `dependency-analyzer` - Tech stack, integrations, versions
+3. `quality-analyzer` - Tests, debt, security concerns
+
+See #[[file:steering/multi-agent.md]] for agent prompt templates.
 
 ## Phase Execution
 
@@ -182,3 +184,17 @@ See #[[file:steering/tiered-approvals.md]] for full details.
 - ❌ Deleting history (mark superseded instead)
 - ❌ Skipping comprehension gates
 - ❌ Rubber-stamping without understanding
+
+## Spec Quality Checks
+
+Before major milestones, run spec critic. See #[[file:steering/spec-critic.md]].
+
+**Auto-triggers:**
+- Before phase transitions
+- On user request ("review spec quality")
+- After major code changes
+
+**Health thresholds:**
+- 80%+: ✅ Proceed
+- 60-79%: ⚠️ Address issues first
+- <60%: 🔴 Stop and fix

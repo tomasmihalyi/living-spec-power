@@ -49,8 +49,10 @@ For A/B: Create `.kiro/steering/living-spec-maintenance.md` then `.kiro/specs/00
 | File | Purpose |
 |------|---------|
 | #[[file:steering/multi-agent.md]] | Parallel agent orchestration for analysis |
+| #[[file:steering/parallel-analysis.md]] | Brownfield codebase analysis workflow |
 | #[[file:steering/comprehension-gates.md]] | Developer understanding checkpoints |
 | #[[file:steering/tiered-approvals.md]] | Risk-based approval system |
+| #[[file:steering/spec-critic.md]] | Automated gap analysis and quality scoring |
 
 ### Domain Specialists (loaded when triggered)
 
@@ -114,3 +116,15 @@ Living Spec tracks Kiro specs at **phase level** (🔵/🟢/🟡), not task leve
 - `00-project.living.md` - Main orchestrator (sorts first)
 - `01-domain.living.md` - Domain specs if needed
 - Always `.living.md` extension in `.kiro/specs/`
+
+## Hooks (Optional Automation)
+
+Install these hooks for automated spec maintenance:
+
+| Hook | Event | Action |
+|------|-------|--------|
+| `drift-monitor` | fileEdited | Check drift score on source file changes |
+| `phase-gate-reminder` | agentStop | Remind about comprehension gates |
+| `spec-sync-prompt` | agentStop | Prompt for spec updates after work |
+
+To install hooks, copy from `hooks/` folder to your project's `.kiro/hooks/` directory.

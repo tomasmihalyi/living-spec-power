@@ -80,17 +80,46 @@ Automatically activated based on file patterns:
 | 51-75% | 🟠 High | Soft block |
 | 76%+ | 🔴 Critical | Hard block |
 
+## Spec Critic (Gap Analysis)
+
+Automated quality scoring across three dimensions:
+
+| Dimension | Checks |
+|-----------|--------|
+| **Completeness** | All sections have content, requirements defined |
+| **Consistency** | Traces intact, components exist, statuses accurate |
+| **Quality** | Problem specific, success measurable, rationale documented |
+
+Health thresholds:
+- 80-100%: ✅ Healthy
+- 60-79%: ⚠️ Needs Attention  
+- 0-59%: 🔴 Critical
+
+## Hooks (Optional Automation)
+
+| Hook | Trigger | Action |
+|------|---------|--------|
+| `drift-monitor` | File edited | Check drift score |
+| `phase-gate-reminder` | Agent stops | Remind about gates |
+| `spec-sync-prompt` | Agent stops | Prompt for updates |
+
 ## File Structure
 
 ```
 living-spec-power/
 ├── POWER.md
 ├── README.md
+├── hooks/
+│   ├── drift-monitor.json
+│   ├── phase-gate-reminder.json
+│   └── spec-sync-prompt.json
 └── steering/
     ├── workflow.md
     ├── multi-agent.md
+    ├── parallel-analysis.md
     ├── comprehension-gates.md
     ├── tiered-approvals.md
+    ├── spec-critic.md
     ├── drift-detection.md
     ├── decisions.md
     ├── template.md

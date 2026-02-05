@@ -1,0 +1,13 @@
+{
+  "name": "Drift Monitor",
+  "version": "1.0.0",
+  "description": "Monitors spec-code drift when source files are edited. Alerts when drift exceeds thresholds.",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["src/**/*", "lib/**/*", "app/**/*", "packages/**/*"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file was edited. Check if this file is tracked in the Living Spec Component Map (§4). Calculate the current drift score. If drift exceeds 50%, notify the user with the current score and recommend syncing the spec."
+  }
+}
